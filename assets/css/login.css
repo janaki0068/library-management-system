@@ -1,0 +1,144 @@
+:root{
+    --primary-color: #D9D9D9;
+    --secondary-color: #DAD7CD;
+    --background-color: white;
+    --background-color-table: #F4F4F4;
+    --text-color: #333333;
+    --btn-color-1: #D5B9B2;
+    --btn-color-2: #DEDBD8;
+    --btn-color-3: #AAA0A0;
+    --btn-text-color: #5E503F;
+    --background-color-box: #EDDCD2;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    display: flex;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.left-panel{
+    width:40%;
+    background:#efefef;
+    padding:20px;
+}
+
+.logo-section{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo-section img{
+    width:100%;
+    max-width:150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.book-image img{
+    width:100%;
+    max-width:200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.community-text{
+    text-align:center;
+    margin-top:20px;
+    padding: 10px;
+    color: var(--text-color);
+}
+
+.community-text h2{
+    margin-bottom:10px;
+}
+
+.community-text p{
+    font-size: 14px;
+}
+
+.right-panel{
+    width:60%;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background: var(--background-color);
+}
+
+.right-panel h2{
+    margin-bottom:20px;
+    color: var(--text-color);
+}
+
+.subtitle{
+    margin-bottom:30px;
+    color: var(--text-color);
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-bottom:5px;
+    color: var(--text-color);
+}
+
+input[type="text"],
+input[type="password"]{
+    padding:10px;
+    margin-bottom:20px;
+    border: none;
+    border-radius:5px;
+    background: var(--background-color-table);
+}
+
+.options{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
+
+.options a{
+    text-decoration: none;
+    color: var(--btn-text-color);
+}
+
+.remember-me{
+    display:inline-flex;
+    align-items:center;
+    color: var(--text-color);
+    gap: 6px;
+}
+
+.login-btn{
+    padding: 10px;
+    border: none;
+    border-radius:5px;
+    background: var(--btn-color-3);
+    color: var(--btn-text-color);
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.register{
+    text-align: center;
+    color: var(--text-color);
+}
+
+.register a{
+    color: var(--btn-text-color);
+    text-decoration: none;
+    font-weight: bold;
+}
