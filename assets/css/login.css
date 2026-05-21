@@ -44,7 +44,7 @@
 
 .book-image img{
     width:100%;
-    max-width:200px;
+    max-width:300px;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -74,19 +74,15 @@
     background: var(--background-color);
 }
 
-.right-panel h2{
-    margin-bottom:20px;
-    color: var(--text-color);
-}
-
-.subtitle{
-    margin-bottom:30px;
-    color: var(--text-color);
+.right-panel h1, p{
+    margin-bottom:10px;
+    text-align: center;
 }
 
 form{
     display:flex;
     flex-direction:column;
+    margin-top: 20px;
 }
 
 label{
