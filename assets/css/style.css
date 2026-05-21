@@ -95,7 +95,11 @@ nav a:hover {
 .btn-outline {
     background: #9d8f8f;
 }
-
+.buttons a{
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
 /* center image */
 .hero-image {
     position: relative;

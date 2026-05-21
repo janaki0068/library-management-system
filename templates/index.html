@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,16 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- css -->
-     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <!-- navbar -->
     <header class="navbar">
         <div class="logo">
-            <img
-                src="../assets/images/logo.png"
-                alt="logo"
-            />           
+            <img src="{% static 'images/logo.png' %}">          
         </div>
 
         <nav>
@@ -43,16 +42,18 @@
 
             <p>A smarter way to manage books, students, <br> and transactions all in one place. </p>
 
+
             <div class="buttons">
-                <button class="btn">Sign Up</button>
-                <button class="btn btn-outline">Login</button>
+                <a href="{% url 'register' %}" class="btn">Sign Up</a>
+
+                <a href="{% url 'login' %}" class="btn btn-outline">Login</a>
             </div>
         </div>
 
         <!-- center image --> 
         <div class="hero-image">
             <div class="circle"></div>
-            <img src="../assets/images/center.jpeg" alt="center-image">
+            <img src="{% static 'images/center.jpeg' %}">
         </div>
 
         <!-- right content -->

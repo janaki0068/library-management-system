@@ -41,13 +41,20 @@
     display: block;
     margin: 0 auto;
 }
-
+.book-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 .book-image img{
+<<<<<<< HEAD
     width:100%;
     max-width:300px;
+=======
+    width: 500px;
+>>>>>>> 9a7093b (django connection)
     height: auto;
-    display: block;
-    margin: 0 auto;
 }
 
 .community-text{
