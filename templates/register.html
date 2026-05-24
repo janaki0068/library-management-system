@@ -1,19 +1,25 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" href="../assets/css/register.css" />
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
   </head>
   <body>
     <div class="container">
       <div class="left-panel">
         <div class="logo-section">
-          <img src="../assets/images/liblogo.jpg" alt="" />
+          <img src="{% static 'images/liblogo.jpg' %}" alt="" />
         </div>
         <div class="book-image">
-          <img src="../assets/images/loginbook.png" alt="" />
+          <img src="{% static 'images/loginbook.png' %}" alt="" />
         </div>
         <div class="community-text">
           <h2>Join Our Library Community</h2>
@@ -24,64 +30,114 @@
       </div>
       <div class="right-panel">
         <h1>Register</h1>
-        <p class="subtitle">
-          Fill in the details to register
-        </p>
+        <p class="subtitle">Fill in the details to register</p>
         <form>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="full-name">Full Name</label>
-                    <input type="text" id="full-name" required placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required placeholder="Enter your email">
-                </div>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" required placeholder="Enter your username">
-                </div>
-                <div class="form-group">
-                    <label for="phone-number">Phone Number</label>
-                    <input type="tel" id="phone-number" required placeholder="Enter your phone number">
-                </div>
-                <div class="form-group">
-                    <label for="student-id">Student ID</label>
-                    <input type="text" id="student-id" required placeholder="Enter your student ID">
-                </div>
-                <div class="form-group">
-                    <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required placeholder="Enter your password">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" required placeholder="Confirm your password">
-                </div>
-                <div class="form-group">
-                    <label for="role">
-                        <p>Select Role</p>
-                        <select id="role" required>
-                            <option value="">Choose your role</option>
-                            <option value="student">Student</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </label>
-                </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="full-name">Full Name</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="full-name"
+                  required
+                  placeholder="Enter your full name"
+                />
+                <span class="material-symbols-outlined">person</span>
+              </div>
             </div>
-            <div class="checkbox-group">
-                <label for="checkbox">
-                    <input type="checkbox" id="checkbox" required>
-                    I agree to the Terms and Conditions
-                </label>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <div class="input-wrapper">
+                <input
+                type="email"
+                id="email"
+                required
+                placeholder="Enter your email"
+              />
+              <span class="material-symbols-outlined">email</span>
+              </div>
             </div>
-            <div class="form-footer">
-                 <p class="register">Already have an account? <a href="#">Login</a></p>
-                 <button type="submit" class="reg-btn">Register</button>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="username"
+                  required
+                  placeholder="Enter your username"
+                />
+                <span class="material-symbols-outlined">person</span>
+              </div>
             </div>
+            <div class="form-group">
+              <label for="phone-number">Phone Number</label>
+              <div class="input-wrapper">
+                <input
+                  type="tel"
+                  id="phone-number"
+                  required
+                  placeholder="Enter your phone number"
+                />
+                <span class="material-symbols-outlined">phone</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="student-id">Student ID</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="student-id"
+                  required
+                  placeholder="Enter your student ID"
+                />
+                <span class="material-symbols-outlined">id_card</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                required
+                placeholder="Enter your password"
+              />
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                required
+                placeholder="Confirm your password"
+              />
+            </div>
+            <div class="form-group">
+              <label for="role">
+                <p>Select Role</p>
+                <select id="role" required>
+                  <option value="">Choose your role</option>
+                  <option value="student">Student</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="checkbox-group">
+            <label for="checkbox">
+              <input type="checkbox" id="checkbox" required />
+              I agree to the Terms and Conditions
+            </label>
+          </div>
+          <div class="form-footer">
+            <p class="register">
+              Already have an account? <a href="#">Login</a>
+            </p>
+            <button type="submit" class="reg-btn">Register</button>
+          </div>
         </form>
       </div>
     </div>
