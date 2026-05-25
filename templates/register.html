@@ -1,19 +1,22 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" href="../assets/css/register.css" />
+    
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
   </head>
   <body>
     <div class="container">
       <div class="left-panel">
         <div class="logo-section">
-          <img src="../assets/images/liblogo.jpg" alt="" />
+          <img src="{% static 'images/liblogo.jpg' %}">
         </div>
         <div class="book-image">
-          <img src="../assets/images/loginbook.png" alt="" />
+         <img src="{% static 'images/loginbook.png' %}">
         </div>
         <div class="community-text">
           <h2>Join Our Library Community</h2>

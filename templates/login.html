@@ -27,22 +27,37 @@
             <p class="subtitle">
                 Enter your credentials to access your account
             </p>
-            <form action="">
-                <label for="username">Username or Email</label>
-                <input type="text" id="username">
 
-                <label for="">Password</label>
-                <input type="password">
+            <form method="POST">
 
-                <div class="options">
-                        <label class="remember-me">
-                            <input type="checkbox" id="remember-me">
-                            Remember me
-                        </label>
-                        <a href="#" class="forgot-password">Forgot password?</a>
-                </div>
-                <button type="submit" class="login-btn">Login</button>
-            </form>
+    {% csrf_token %}
+
+    <label for="username">Username or Email</label>
+    <input type="text" name="username" id="username">
+
+    <label>Password</label>
+    <input type="password" name="password">
+
+    <div class="options">
+
+        <label class="remember-me">
+            <input type="checkbox" id="remember-me">
+            Remember me
+        </label>
+
+        <a href="#" class="forgot-password">
+            Forgot password?
+        </a>
+
+    </div>
+
+    <button type="submit" class="login-btn">
+        Login
+    </button>
+
+</form>
+
+
             <p class="register">Don't have an account? <a href="#">Sign Up</a></p>
         </div>
     </div>
