@@ -17,13 +17,28 @@
     box-sizing: border-box;
 }
 
-.container{
+.back-link{
+    margin: 20px;
+}
+
+.back-link a{
+    text-decoration: none;
+    color: var(--btn-text-color);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.back-link a:hover{
+    color: var(--btn-color-3);
+}
+
+.login-container{
     display: flex;
     background-color: var(--primary-color);
     border: 1px solid var(--primary-color);
 }
 
-.left-panel{
+.login-left-panel{
     width:40%;
     background:#efefef;
     padding:20px;
@@ -47,14 +62,13 @@
     align-items: center;
     width: 100%;
 }
+
 .book-image img{
-<<<<<<< HEAD
     width:100%;
     max-width:300px;
-=======
-    width: 500px;
->>>>>>> 9a7093b (django connection)
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .community-text{
@@ -72,7 +86,7 @@
     font-size: 14px;
 }
 
-.right-panel{
+.login-right-panel{
     width:60%;
     padding:40px;
     display:flex;
@@ -81,7 +95,7 @@
     background: var(--background-color);
 }
 
-.right-panel h1, p{
+.login-right-panel h1, p{
     margin-bottom:10px;
     text-align: center;
 }
