@@ -123,7 +123,9 @@
         </label>
       </div>
       <div class="register-form-footer">
-        <p class="register">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        <p class="register">
+          Already have an account? <a href="{% url 'login' %}">Login</a>
+        </p>
         <form action="" method="post">
           {% csrf_token %}
           <button type="submit" class="reg-btn">Register</button>
