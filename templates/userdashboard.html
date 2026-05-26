@@ -1,0 +1,81 @@
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/userdashboard.css' %}" />
+<link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Kalnia:wght@100..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,10OTH:ital,wght@0,1００..９００;1,1００..９００&display=swap" rel="stylesheet">
+
+<div class="user-navbar">
+    <div class="user-logo">
+        <h1>LMS</h1>
+    </div>
+    <div class="user-nav-links">
+        <a href="#">Browse Books</a>
+        <a href="#">Books</a>
+        <a href="#">Fines</a>
+    </div>
+    <div class="logout-link">
+        <a href="#">
+            <span class="material-symbols-outlined">
+                logout
+            </span>
+        </a>
+    </div>
+</div>
+
+<h3>My Profile</h3>
+
+<div class="user-profile">
+    <div class="left-panel">
+        <div class="profile-box">
+            <img src="{% static "images/user-profile.jpg" %}" alt="User Profile Image">
+            <h1>John Doe</h1>
+            <p>STU2026</p>
+
+            <hr>
+
+            <div class="info-icon">
+                <span class="material-symbols-outlined left-icon">call</span>
+                <div class="info-text">
+                    <h1>Phone</h1>
+                    <p id="phone-text">123-456-7890</p>
+                    <input type="text" id="phone-input" value="123-456-7890" style="display:none;">
+                </div>
+                <span class="material-symbols-outlined right-icon">edit</span>
+            </div>
+
+            <div class="info-icon">
+                <span class="material-symbols-outlined left-icon">mail</span>
+                <div class="info-text">
+                    <h1>Email</h1>
+                    <p id="email-text">john.doe@example.com</p>
+                    <input type="text" id="email-input" value="john.doe@example.com" style="display:none;">
+                </div>
+                <span class="material-symbols-outlined right-icon">edit</span>
+            </div>
+
+            <div class="info-icon">
+                <span class="material-symbols-outlined left-icon">calendar_today</span>
+                <div class="info-text">
+                    <h1>Member Since</h1>
+                    <p>January 1, 2020</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="right-panel">
+        <div class="box-1">1</div>
+        <div class="box-2">2</div>
+        <div class="box-3">3</div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/userdashboard.js' %}"></script>
+{% endblock content %}
