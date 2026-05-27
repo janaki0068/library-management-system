@@ -63,3 +63,14 @@ def dashboard(request):
     return render(
         request, 'admindashboard.html', context
     )
+
+# user dashboard
+def user_dashboard(request):
+
+    return render(request, 'userdashboard.html')
+
+def browse_books(request):
+
+    books = Book.objects.all()
+
+    return render(request, 'browsebooks.html', {'books': books})

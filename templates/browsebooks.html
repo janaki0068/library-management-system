@@ -1,0 +1,60 @@
+{% load static %} 
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/browsebooks.css' %}" />
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Kalnia:wght@100..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,10OTH:ital,wght@0,1００..９００;1,1００..９００&display=swap"
+  rel="stylesheet"
+/>
+
+<div class="user-navbar">
+  <div class="user-logo">
+    <h1>LMS</h1>
+  </div>
+  <div class="user-nav-links">
+    <a href="{% url 'user_dashboard' %}">Profile</a>
+    <a href="{% url 'browse_books' %}">Browse Books</a>
+    <a href="#">Books</a>
+    <a href="#">Fines</a>
+  </div>
+  <div class="logout-link">
+    <a href="#">
+      <span class="material-symbols-outlined"> logout </span>
+    </a>
+  </div>
+</div>
+
+<h3>Browse Books</h3>
+<p>Search and Borrow Books from our library</p>
+
+<div class="search-section">
+  <form action="/search/" method="get" class="search-form">
+    <input
+      type="search"
+      id="site-search"
+      name="q"
+      placeholder="Search by title, author or ISBN"
+    />
+    <button type="submit" class="search-button">
+      <span class="material-symbols-outlined">search</span>
+    </button>
+  </form>
+
+  <div class="category-dropdown">
+    <select name="category" id="category-select">
+      <option value="">All Categories</option>
+      <option value="fiction">Fiction</option>
+      <option value="non-fiction">Non-Fiction</option>
+      <option value="science">Science</option>
+      <option value="history">History</option>
+  </div>
+</div>
+
+{% endblock content %}

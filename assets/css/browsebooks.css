@@ -1,0 +1,134 @@
+:root{
+    --primary-color: #D9D9D9;
+    --secondary-color: #DAD7CD; 
+    --background-color: white;
+    --background-color-table: #F4F4F4;
+    --text-color: #5F5449;
+    --btn-color-1: #D5B9B2;
+    --btn-color-2: #DEDBD8;
+    --btn-color-3: #AAA0A0;
+    --btn-text-color: #5E503F;
+    --btn-text-color-1: #AFA193;
+    --background-color-box: #EDDCD2;
+    --box: #BFB5AF;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.user-navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    font-family: 'Kalnia', serif;
+}
+
+.user-navbar .user-logo{
+    color: var(--text-color);
+    font-size: 18px;
+    margin: 5px;
+}
+
+.user-navbar .user-nav-links a{
+    text-decoration: none;
+    color: var(--text-color);
+    margin: 7px;
+}
+
+.logout-link a{
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+h3{
+    margin: 20px;
+    font-weight:bold;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+}
+
+p{
+    margin: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+}
+
+/* search bar */
+
+.search-section{
+    display:flex;
+    align-items: center;
+}
+
+.search-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    width: 80%;
+}
+
+#site-search{
+    border: 1px solid var(--primary-color);
+    padding: 15px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    opacity: 50%;
+    width: 100%;
+}
+
+#site-search:focus{
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    opacity: 75%;
+}
+
+.search-button{
+    border: none;
+    padding: 10px;
+    background-color: var(--background-color);
+} 
+
+.category-dropdown{
+    margin: 20px;
+    width: 20%;
+}
+ 
+#category-select{
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--btn-color-1);
+    background-color: var(--btn-color-1);
+    color: var(--btn-text-color);
+    font-family: 'Jost', sans-serif;
+    font-weight: bold;
+    outline: none;
+    border: none;           
+    box-shadow: none;
+}
+
+#category-select:focus{
+    border-color: var(--background-color);
+    outline: none;
+}
+
+#category-select:focus,
+#category-select:focus-visible {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+#category-select option{
+    background-color: var(--background-color);
+    color: var(--btn-text-color);
+}
+

@@ -15,6 +15,7 @@
         <h1>LMS</h1>
     </div>
     <div class="user-nav-links">
+        <a href="#">Profile</a>
         <a href="#">Browse Books</a>
         <a href="#">Books</a>
         <a href="#">Fines</a>
@@ -31,7 +32,7 @@
 <h3>My Profile</h3>
 
 <div class="user-profile">
-    <div class="left-panel">
+    <div class="user-left-panel">
         <div class="profile-box">
             <img src="{% static "images/user-profile.jpg" %}" alt="User Profile Image">
             <h1>John Doe</h1>
@@ -44,9 +45,9 @@
                 <div class="info-text">
                     <h1>Phone</h1>
                     <p id="phone-text">123-456-7890</p>
-                    <input type="text" id="phone-input" value="123-456-7890" style="display:none;">
+                    <input type="tel" id="phone-input" value="123-456-7890" style="display:none;">
                 </div>
-                <span class="material-symbols-outlined right-icon">edit</span>
+                <span class="material-symbols-outlined right-icon edit-phone">edit</span>
             </div>
 
             <div class="info-icon">
@@ -56,7 +57,7 @@
                     <p id="email-text">john.doe@example.com</p>
                     <input type="text" id="email-input" value="john.doe@example.com" style="display:none;">
                 </div>
-                <span class="material-symbols-outlined right-icon">edit</span>
+                <span class="material-symbols-outlined right-icon edit-email">edit</span>
             </div>
 
             <div class="info-icon">
@@ -69,10 +70,38 @@
 
         </div>
     </div>
-    <div class="right-panel">
-        <div class="box-1">1</div>
-        <div class="box-2">2</div>
-        <div class="box-3">3</div>
+    <div class="user-right-panel">
+        <div class="stats-container">
+            <div class="box box-1">
+            <h1>Total Borrowed</h1>
+            <p>10</p>
+        </div>
+        <div class="box box-2">
+            <h1>Total Returned</h1>
+            <p>5</p>
+        </div>
+        <div class="box box-3">
+            <h1>Fines</h1>
+            <p>Rs. 0.00</p>
+        </div>
+        </div>
+        <div class="account-info-box">
+        <h2>Account Information</h2>
+        <div class="account-details">
+            <div class="detail-group">
+                <span class="label">Student ID</span>
+                <span class="value">STU202601</span>
+            </div>
+            <div class="detail-group">
+                <span class="label">Total Books Read</span>
+                <span class="value">3</span>
+            </div>
+            <div class="detail-group">
+                <span class="label">Registration Date</span>
+                <span class="value">02/15/2026</span>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
 
