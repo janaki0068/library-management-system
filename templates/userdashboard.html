@@ -15,13 +15,13 @@
         <h1>LMS</h1>
     </div>
     <div class="user-nav-links">
-        <a href="#">Profile</a>
-        <a href="#">Browse Books</a>
+        <a href="{% url "user_dashboard" %}">Profile</a>
+        <a href="{% url "browse_books" %}">Browse Books</a>
         <a href="#">Books</a>
         <a href="#">Fines</a>
     </div>
     <div class="logout-link">
-        <a href="#">
+        <a href="{% url "logout" %}">
             <span class="material-symbols-outlined">
                 logout
             </span>

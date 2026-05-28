@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/register.css' %}" />
 
 <div class="back-link">
-  <a href="{% url 'home' %}">Return Home</a>
+  <a href="{% url 'index' %}">Return Home</a>
 </div>
 <div class="register-container">
   <div class="register-left-panel">
@@ -23,7 +23,13 @@
   <div class="register-right-panel">
     <h1>Register</h1>
     <p class="subtitle">Fill in the details to register</p>
-    <form>
+    {% if messages %}
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
       <div class="register-form-grid">
         <div class="register-form-group">
           <label for="full-name">Full Name</label>
@@ -31,6 +37,7 @@
             <input
               type="text"
               id="full-name"
+              name="full_name"
               required
               placeholder="Enter your full name"
             />
@@ -43,6 +50,7 @@
             <input
               type="email"
               id="email"
+              name="email"
               required
               placeholder="Enter your email"
             />
@@ -55,6 +63,7 @@
             <input
               type="text"
               id="username"
+              name="username"
               required
               placeholder="Enter your username"
             />
@@ -67,6 +76,7 @@
             <input
               type="tel"
               id="phone-number"
+              name="phone"
               required
               placeholder="Enter your phone number"
             />
@@ -79,6 +89,7 @@
             <input
               type="text"
               id="student-id"
+              name="student_id"
               required
               placeholder="Enter your student ID"
             />
@@ -87,13 +98,14 @@
         </div>
         <div class="register-form-group">
           <label for="dob">Date of Birth</label>
-          <input type="date" id="dob" required />
+          <input type="date" id="dob" name="dob" required />
         </div>
         <div class="register-form-group">
           <label for="password">Password</label>
           <input
             type="password"
             id="password"
+            name="password"
             required
             placeholder="Enter your password"
           />
@@ -103,6 +115,7 @@
           <input
             type="password"
             id="confirm-password"
+            name="confirm_password"
             required
             placeholder="Confirm your password"
           />
@@ -110,7 +123,7 @@
         <div class="register-form-group">
           <label for="role">
             <p>Select Role</p>
-            <select id="role" required>
+            <select id="role" name="role" required>
               <option value="">Choose your role</option>
               <option value="student">Student</option>
               <option value="admin">Admin</option>
@@ -120,7 +133,7 @@
       </div>
       <div class="register-checkbox-group">
         <label for="checkbox">
-          <input type="checkbox" id="checkbox" required />
+          <input type="checkbox" id="checkbox" name="checkbox" required />
           I agree to the Terms and Conditions
         </label>
       </div>
@@ -128,10 +141,7 @@
         <p class="register">
           Already have an account? <a href="{% url 'login' %}">Login</a>
         </p>
-        <form action="" method="post">
-          {% csrf_token %}
-          <button type="submit" class="reg-btn">Register</button>
-        </form>
+        <button type="submit" class="reg-btn">Register</button>
       </div>
     </form>
   </div>

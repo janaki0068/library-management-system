@@ -1,18 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # STUDENT MODEL
 class Student(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    department = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    student_id = models.CharField(max_length=20, unique=True)
+    phone = models.CharField(max_length=15, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.name 
+        return self.user.get_full_name() 
     
 #BOOK MODEL
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
+    isbn = models.CharField(max_length=13, blank=True)
     quantity = models.IntegerField(default=1)
     available = models.BooleanField(default=True)
 

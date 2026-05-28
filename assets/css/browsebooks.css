@@ -11,6 +11,8 @@
     --btn-text-color-1: #AFA193;
     --background-color-box: #EDDCD2;
     --box: #BFB5AF;
+    --available-color: #8C07DD;
+    --unavailable-color: #6F1D1B;
 }
 
 *{
@@ -78,7 +80,7 @@ p{
     padding: 15px;
     border-radius: 10px;
     background-color: var(--primary-color);
-    opacity: 50%;
+    opacity: 0.5;
     width: 100%;
 }
 
@@ -86,7 +88,7 @@ p{
     outline: none;
     border-color: var(--primary-color);
     background-color: var(--primary-color);
-    opacity: 75%;
+    opacity: 0.75;
 }
 
 .search-button{
@@ -101,6 +103,9 @@ p{
 }
  
 #category-select{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     width: 100%;
     text-align: center;
     padding: 10px;
@@ -132,3 +137,81 @@ p{
     color: var(--btn-text-color);
 }
 
+.books-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.book-card{
+    background-color: var(--background-color-table);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px var(--box);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.book-cover{
+    width: 200px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.book-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 10px;
+}
+
+.book-details{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.badge{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge.available{
+    background-color: var(--secondary-color);
+    color: var(--available-color);
+}
+
+.badge.unavailable{
+    background-color: var(--secondary-color);
+    color: var(--unavailable-color);
+}
+
+.book-details h1{
+    font-size: 22px;
+    font-family: 'Jost', sans-serif;
+}
+
+.book-details p{
+    font-size: 14px;
+    font-family: 'Jost', sans-serif;
+}
+
+.borrow-button{
+    padding: 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--btn-color-1);
+    color: var(--btn-text-color);
+    font-family: 'Jost', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+}

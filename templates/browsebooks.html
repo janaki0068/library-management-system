@@ -1,5 +1,4 @@
-{% load static %} 
-{% block content %}
+{% load static %} {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/browsebooks.css' %}" />
 
@@ -25,7 +24,7 @@
     <a href="#">Fines</a>
   </div>
   <div class="logout-link">
-    <a href="#">
+    <a href="{% url 'logout' %}">
       <span class="material-symbols-outlined"> logout </span>
     </a>
   </div>
@@ -54,6 +53,39 @@
       <option value="non-fiction">Non-Fiction</option>
       <option value="science">Science</option>
       <option value="history">History</option>
+    </select>
+  </div>
+</div>
+
+<div class="books-grid">
+  <div class="book-card">
+    <div class="book-cover">
+      <img src="{% static 'images/image1.png' %}" alt="Book Cover" />
+    </div>
+    <div class="book-details">
+      <span class="badge available">Available</span>
+      <div>
+        <h1>The Fault in Our Stars</h1>
+        <p>By John Green</p>
+        <p>ISBN: 1234567890</p>
+      </div>
+      <button class="borrow-button">Request to Borrow</button>
+    </div>
+  </div>
+
+  <div class="book-card">
+    <div class="book-cover">
+      <img src="{% static 'images/image3.png' %}" alt="Book Cover" />
+    </div>
+    <div class="book-details">
+      <span class="badge unavailable">Unavailable</span>
+      <div>
+        <h1>Paribhashit Aankhaharu</h1>
+        <p>By Parijat</p>
+        <p>ISBN: 0987654321</p>
+      </div>
+      <button class="borrow-button" disabled>Unavailable</button>
+    </div>
   </div>
 </div>
 
