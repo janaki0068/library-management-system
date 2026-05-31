@@ -17,8 +17,8 @@
     <div class="user-nav-links">
         <a href="{% url "user_dashboard" %}">Profile</a>
         <a href="{% url "browse_books" %}">Browse Books</a>
-        <a href="#">Books</a>
-        <a href="#">Fines</a>
+        <a href="{% url "user_books" %}">Books</a>
+        <a href="{% url "user_fines" %}">Fines</a>
     </div>
     <div class="logout-link">
         <a href="{% url "logout" %}">
@@ -35,8 +35,8 @@
     <div class="user-left-panel">
         <div class="profile-box">
             <img src="{% static "images/user-profile.jpg" %}" alt="User Profile Image">
-            <h1>John Doe</h1>
-            <p>STU2026</p>
+            <h1>{{request.user.get_full_name}}</h1>
+            <p>{{student.student_id}}</p>
 
             <hr>
 
@@ -44,8 +44,8 @@
                 <span class="material-symbols-outlined left-icon">call</span>
                 <div class="info-text">
                     <h1>Phone</h1>
-                    <p id="phone-text">123-456-7890</p>
-                    <input type="tel" id="phone-input" value="123-456-7890" style="display:none;">
+                    <p id="phone-text">{{student.phone|default:"N/A"}}</p>
+                    <input type="tel" id="phone-input" value="{{ student.phone|default:"N/A" }}" style="display:none;">
                 </div>
                 <span class="material-symbols-outlined right-icon edit-phone">edit</span>
             </div>
@@ -54,8 +54,8 @@
                 <span class="material-symbols-outlined left-icon">mail</span>
                 <div class="info-text">
                     <h1>Email</h1>
-                    <p id="email-text">john.doe@example.com</p>
-                    <input type="text" id="email-input" value="john.doe@example.com" style="display:none;">
+                    <p id="email-text">{{request.user.email}}</p>
+                    <input type="text" id="email-input" value="{{request.user.email}}" style="display:none;">
                 </div>
                 <span class="material-symbols-outlined right-icon edit-email">edit</span>
             </div>
@@ -64,7 +64,7 @@
                 <span class="material-symbols-outlined left-icon">calendar_today</span>
                 <div class="info-text">
                     <h1>Member Since</h1>
-                    <p>January 1, 2020</p>
+                    <p>{{request.user.date_joined|date:"F j, Y"}}</p>
                 </div>
             </div>
 
@@ -74,15 +74,15 @@
         <div class="stats-container">
             <div class="box box-1">
             <h1>Total Borrowed</h1>
-            <p>10</p>
+            <p>{{ borrowed_books }}</p>
         </div>
         <div class="box box-2">
             <h1>Total Returned</h1>
-            <p>5</p>
+            <p>{{ returned_books }}</p>
         </div>
         <div class="box box-3">
             <h1>Fines</h1>
-            <p>Rs. 0.00</p>
+            <p>Rs. {{ total_fines }}</p>
         </div>
         </div>
         <div class="account-info-box">
@@ -90,15 +90,15 @@
         <div class="account-details">
             <div class="detail-group">
                 <span class="label">Student ID</span>
-                <span class="value">STU202601</span>
+                <span class="value">{{student.student_id}}</span>
             </div>
             <div class="detail-group">
                 <span class="label">Total Books Read</span>
-                <span class="value">3</span>
+                <span class="value">{{returned_books}}</span>
             </div>
             <div class="detail-group">
                 <span class="label">Registration Date</span>
-                <span class="value">02/15/2026</span>
+                <span class="value">{{request.user.date_joined|date:"m/d/Y"}}</span>
             </div>
         </div>
     </div>

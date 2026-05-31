@@ -20,8 +20,8 @@
   <div class="user-nav-links">
     <a href="{% url 'user_dashboard' %}">Profile</a>
     <a href="{% url 'browse_books' %}">Browse Books</a>
-    <a href="#">Books</a>
-    <a href="#">Fines</a>
+    <a href="{% url 'user_books' %}">Books</a>
+    <a href="{% url 'user_fines' %}">Fines</a>
   </div>
   <div class="logout-link">
     <a href="{% url 'logout' %}">
@@ -58,35 +58,32 @@
 </div>
 
 <div class="books-grid">
+  {% for book in books %}
   <div class="book-card">
     <div class="book-cover">
       <img src="{% static 'images/image1.png' %}" alt="Book Cover" />
     </div>
     <div class="book-details">
+      {% if book.available %}
       <span class="badge available">Available</span>
-      <div>
-        <h1>The Fault in Our Stars</h1>
-        <p>By John Green</p>
-        <p>ISBN: 1234567890</p>
-      </div>
-      <button class="borrow-button">Request to Borrow</button>
-    </div>
-  </div>
-
-  <div class="book-card">
-    <div class="book-cover">
-      <img src="{% static 'images/image3.png' %}" alt="Book Cover" />
-    </div>
-    <div class="book-details">
+      {% else %}
       <span class="badge unavailable">Unavailable</span>
+      {% endif %}
       <div>
-        <h1>Paribhashit Aankhaharu</h1>
-        <p>By Parijat</p>
-        <p>ISBN: 0987654321</p>
+        <h1>{{ book.title }}</h1>
+        <p>By {{ book.author }}</p>
+        <p>ISBN: {{ book.isbn }}</p>
       </div>
+      {% if book.available %}
+      <button class="borrow-button">Request to Borrow</button>
+      {% else %}
       <button class="borrow-button" disabled>Unavailable</button>
+      {% endif %}
     </div>
   </div>
+  {% empty %}
+  <p>No books found.</p>
+  {% endfor %}
 </div>
 
 {% endblock content %}

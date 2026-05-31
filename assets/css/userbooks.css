@@ -1,0 +1,219 @@
+:root{
+    --primary-color: #D9D9D9;
+    --secondary-color: #DAD7CD; 
+    --background-color: white;
+    --background-color-table: #F4F4F4;
+    --text-color: #5F5449;
+    --btn-color-1: #D5B9B2;
+    --btn-color-2: #DEDBD8;
+    --btn-color-3: #AAA0A0;
+    --btn-text-color: #5E503F;
+    --btn-text-color-1: #AFA193;
+    --background-color-box: #EDDCD2;
+    --box: #BFB5AF;
+    --available-color: #8C07DD;
+    --unavailable-color: #6F1D1B;
+    --due-soon-color: #724cf9;
+    --overdue-color: #F28C8C;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.user-navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    font-family: 'Kalnia', serif;
+}
+
+.user-navbar .user-logo{
+    color: var(--text-color);
+    font-size: 18px;
+    margin: 5px;
+}
+
+.user-navbar .user-nav-links a{
+    text-decoration: none;
+    color: var(--text-color);
+    margin: 7px;
+}
+
+.logout-link a{
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+h3{
+    margin: 20px;
+    font-weight:bold;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+}
+
+p{
+    margin: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+}
+
+.borrowed-books{
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    margin: 20px;
+    padding: 20px;
+    background-color: var(--background-color-table);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.borrowed-books h1{
+    font-family: 'Jost', sans-serif;
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.books-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px;
+}
+
+.book-card{
+    background-color: var(--background-color-table);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px var(--box);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.book-cover{
+    width: 200px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.book-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 10px;
+}
+
+.book-details{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.book-details h1{
+    font-size: 22px;
+    font-family: 'Jost', sans-serif;
+}
+
+.book-details p{
+    font-size: 14px;
+    font-family: 'Jost', sans-serif;
+}
+
+.book-status{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.book-status p{
+    margin: 0;
+}
+
+.book-status .material-symbols-outlined{
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.book-status p{
+    font-size: 15px;
+    font-family: 'Jost', sans-serif;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.badge{
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    padding: 12px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Jost', sans-serif;
+    text-align: center;
+}
+
+.badge.due-soon{
+    background-color: var(--due-soon-color);
+}
+
+.badge.overdue{
+    background-color: var(--overdue-color);
+}
+
+.table-container{
+    margin: 20px;
+    background-color: var(--background-color-table);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Jost', sans-serif;
+}
+
+thead{
+    background-color: var(--primary-color);
+}
+
+thead th{
+    padding: 12px;
+    text-align: left;
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+tbody tr{
+    border-bottom: 1px solid var(--primary-color);
+}
+
+tbody tr:last-child{
+    border-bottom: none;
+}
+
+tbody td{
+    padding: 12px;
+    color: var(--text-color);
+    font-size: 13px;
+}
+
+tbody td:last-child {
+    font-weight: 600;
+}
+
+.status-due-soon {
+    color: var(--due-soon-color);
+}
+
+.status-overdue {
+    color: var(--overdue-color);
+}

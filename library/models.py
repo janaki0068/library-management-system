@@ -36,6 +36,7 @@ class Transaction(models.Model):
 # FINE MODEL
 class Fine(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     paid = models.BooleanField(default=False)
 

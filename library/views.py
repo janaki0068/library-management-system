@@ -1,5 +1,8 @@
+from time import timezone
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import *
@@ -123,6 +126,7 @@ def dashboard(request):
     )
 
 # user dashboard
+@login_required
 def user_dashboard(request):
     try:
         student = Student.objects.get(user=request.user)
@@ -143,6 +147,7 @@ def user_dashboard(request):
 
     return render(request, 'userdashboard.html', context)
 
+@login_required
 def browse_books(request):
     query = request.GET.get('q', '')
     category = request.GET.get('category', '')
@@ -161,3 +166,47 @@ def browse_books(request):
     }
 
     return render(request, 'browsebooks.html', context)
+
+@login_required
+def user_books(request):
+    try:
+        student = Student.objects.get(user=request.user)
+        transactions = Transaction.objects.filter(student=student, is_returned=False)
+
+        today = timezone.now().date()
+        for t in transactions:
+            if t.return_date:
+                if t.return_date < today:
+                    t.status = 'overdue'
+                elif t.due_date - today <= timezone.timedelta(days=3):
+                    t.status = 'due_soon'
+                else:
+                    t.status = 'active'
+            else:
+                t.status = 'active'
+
+    except Student.DoesNotExist:
+        transactions = []
+
+    context = {
+        'transactions': transactions,
+    }
+
+    return render(request, 'userbooks.html', context)
+
+@login_required
+def user_fines(request):
+    try:
+        student = Student.objects.get(user=request.user)
+        fines = Fine.objects.filter(student=student, paid=False)
+        total_fines = sum(fine.amount for fine in fines)
+    except Student.DoesNotExist:
+        fines = []
+        total_fines = 0
+
+    context = {
+        'fines': fines,
+        'total_fines': total_fines,
+    }
+
+    return render(request, 'userfines.html', context)
