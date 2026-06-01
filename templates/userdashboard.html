@@ -34,7 +34,18 @@
 <div class="user-profile">
     <div class="user-left-panel">
         <div class="profile-box">
-            <img src="{% static "images/user-profile.jpg" %}" alt="User Profile Image">
+            <form action="POST" action="{% url 'profile_picture' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if student.profile_picture %}
+                <img src="{{student.profile_picture.url}}" alt="User Profile Image">
+                {% else %}
+                <img src="{% static 'images/user-profile.jpg' %}" alt="User Profile Image">
+                {% endif %}
+                <label for="profile-picture-input" class="edit-profile-picture">
+                    <span class="material-symbols-outlined">edit</span>
+                </label>
+                <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*" style="display:none;" onchange="this.form.submit()">
+            </form>
             <h1>{{request.user.get_full_name}}</h1>
             <p>{{student.student_id}}</p>
 
@@ -89,15 +100,15 @@
         <h2>Account Information</h2>
         <div class="account-details">
             <div class="detail-group">
-                <span class="label">Student ID</span>
+                <span class="label">Student ID : </span>
                 <span class="value">{{student.student_id}}</span>
             </div>
             <div class="detail-group">
-                <span class="label">Total Books Read</span>
+                <span class="label">Total Books Read : </span>
                 <span class="value">{{returned_books}}</span>
             </div>
             <div class="detail-group">
-                <span class="label">Registration Date</span>
+                <span class="label">Registration Date : </span>
                 <span class="value">{{request.user.date_joined|date:"m/d/Y"}}</span>
             </div>
         </div>

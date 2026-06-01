@@ -7,6 +7,7 @@ class Student(models.Model):
     student_id = models.CharField(max_length=20, unique=True)
     phone = models.CharField(max_length=15, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
 
     def __str__(self):
         return self.user.get_full_name() 
@@ -15,6 +16,7 @@ class Student(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, blank=False)
     isbn = models.CharField(max_length=13, blank=True)
     quantity = models.IntegerField(default=1)
     available = models.BooleanField(default=True)

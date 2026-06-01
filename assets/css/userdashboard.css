@@ -238,10 +238,104 @@ hr{
     gap: 5px;
 }
 
-.detail-group .label{
+.detail-group .label, .detail-group .value {
     font-size: 13px;
 }
 
-.detail-group .value{
-    font-size: 13px;
+.change-photo-btn {
+    margin-top: 10px;
+    font-size: 12px;
+    font-family: 'Jost', sans-serif;
+    color: var(--btn-text-color);
+    background-color: var(--btn-color-1);
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ── TABLET (max 768px) ── */
+@media (max-width: 768px) {
+
+    .user-navbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 15px;
+    }
+
+    .user-nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .user-profile {
+        flex-direction: column;
+        margin: 15px;
+    }
+
+    .user-left-panel,
+    .user-right-panel {
+        min-width: 100%;
+    }
+
+    .profile-box {
+        min-height: auto;
+    }
+
+    .stats-container {
+        justify-content: center;
+    }
+
+    .box {
+        max-width: 100%;
+    }
+}
+
+/* ── MOBILE (max 480px) ── */
+@media (max-width: 480px) {
+
+    .user-navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .user-nav-links a {
+        font-size: 13px;
+        margin: 4px;
+    }
+
+    .profile-box img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profile-box h1 {
+        font-size: 16px;
+    }
+
+    .box {
+        min-width: 100%;
+        max-width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .stats-container {
+        flex-direction: column;
+    }
+
+    .account-info-box {
+        padding: 15px;
+    }
+
+    .left-icon {
+        font-size: 20px;
+        margin-right: 12px;
+    }
+
+    h3 {
+        font-size: 13px;
+        margin: 15px;
+    }
 }

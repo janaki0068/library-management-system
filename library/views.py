@@ -8,11 +8,15 @@ from django.contrib import messages
 from .models import *
 
 # HOME PAGE
+
+
 def index(request):
-    
+
     return render(request, 'index.html')
 
 # LOGIN PAGE
+
+
 def login(request):
 
     if request.method == 'POST':
@@ -20,6 +24,7 @@ def login(request):
         username = request.POST.get('username')
 
         password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me') 
 
         user = authenticate(
             request,
@@ -30,6 +35,11 @@ def login(request):
         if user is not None:
 
             auth_login(request, user)
+
+            if not remember_me:
+                request.session.set_expiry(0)       #expires when browser closes
+            else:
+                request.session.set_expiry(86400 * 7)       #expires in 7 days
 
             if user.is_staff:
                 return redirect('dashboard')
@@ -45,6 +55,8 @@ def login(request):
     return render(request, 'login.html')
 
 # REGISTER PAGe
+
+
 def register(request):
     if request.method == 'POST':
         full_name = request.POST.get('full_name')
@@ -68,20 +80,20 @@ def register(request):
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists')
             return render(request, 'register.html')
-        
+
         name_parts = full_name.split(' ', 1)
         first_name = name_parts[0]
         last_name = name_parts[1] if len(name_parts) > 1 else ''
 
         user = User.objects.create_user(
-            username=username, 
-            email=email, 
+            username=username,
+            email=email,
             password=password,
             first_name=first_name,
             last_name=last_name
         )
 
-        if role =='admin':
+        if role == 'admin':
             user.is_staff = True
             user.save()
 
@@ -97,12 +109,19 @@ def register(request):
 
     return render(request, 'register.html')
 
+def forgot_password(request):
+    return render(request, 'forgotpassword.html')
+
 # LOGOUT PAGE
+
+
 def logout(request):
     auth_logout(request)
     return redirect('index')
 
 # ADMIN DASHBOARD
+
+
 def dashboard(request):
 
     total_books = Book.objects.count()
@@ -113,12 +132,12 @@ def dashboard(request):
     recent_activity = Transaction.objects.order_by('-borrowed_date')[:3]
 
     context = {
-        'total_books':total_books,
-        'active_borrows':active_borrows,
-        'active_students':active_students,
-        'overdue_fines':overdue_fines,
-        'overdue_books':overdue_books,
-        'recent_activity':recent_activity,
+        'total_books': total_books,
+        'active_borrows': active_borrows,
+        'active_students': active_students,
+        'overdue_fines': overdue_fines,
+        'overdue_books': overdue_books,
+        'recent_activity': recent_activity,
     }
 
     return render(
@@ -126,12 +145,16 @@ def dashboard(request):
     )
 
 # user dashboard
+
+
 @login_required
 def user_dashboard(request):
     try:
         student = Student.objects.get(user=request.user)
-        borrowed_books = Transaction.objects.filter(student=student, is_returned=False).count()
-        returned_books = Transaction.objects.filter(student=student, is_returned=True).count()
+        borrowed_books = Transaction.objects.filter(
+            student=student, is_returned=False).count()
+        returned_books = Transaction.objects.filter(
+            student=student, is_returned=True).count()
         fines = Fine.objects.filter(student=student, paid=False)
         total_fines = sum(fine.amount for fine in fines)
     except Student.DoesNotExist:
@@ -147,6 +170,17 @@ def user_dashboard(request):
 
     return render(request, 'userdashboard.html', context)
 
+
+@login_required
+def profile_picture(request):
+    if request.method == 'POST':
+        student = Student.objects.get(user=request.user)
+        if request.FILES.get('profile_picture'):
+            student.profile_picture = request.FILES['profile_picture']
+            student.save()
+    return redirect('user_dashboard')
+
+
 @login_required
 def browse_books(request):
     query = request.GET.get('q', '')
@@ -154,24 +188,30 @@ def browse_books(request):
     books = Book.objects.all()
 
     if query:
-        books = books.filter(title__icontains=query) | books.filter(author__icontains=query)
+        books = books.filter(title__icontains=query) | books.filter(
+            author__icontains=query)
 
     if category:
         books = books.filter(category__icontains=category)
 
+    categories = Book.objects.exclude(category='').values_list('category', flat=True).distinct()
+
     context = {
         'books': books,
         'query': query,
-        'category': category,
+        'selected_category': category,
+        'categories': categories,
     }
 
     return render(request, 'browsebooks.html', context)
+
 
 @login_required
 def user_books(request):
     try:
         student = Student.objects.get(user=request.user)
-        transactions = Transaction.objects.filter(student=student, is_returned=False)
+        transactions = Transaction.objects.filter(
+            student=student, is_returned=False)
 
         today = timezone.now().date()
         for t in transactions:
@@ -193,6 +233,7 @@ def user_books(request):
     }
 
     return render(request, 'userbooks.html', context)
+
 
 @login_required
 def user_fines(request):

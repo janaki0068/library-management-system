@@ -11,4 +11,6 @@ urlpatterns = [
     path('browse-books/', views.browse_books, name='browse_books'),
     path('user-books/', views.user_books, name='user_books'),
     path('user-fines/', views.user_fines, name='user_fines'),
+    path('profile-picture/', views.profile_picture, name='profile_picture'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
 ]

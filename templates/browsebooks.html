@@ -47,12 +47,16 @@
   </form>
 
   <div class="category-dropdown">
-    <select name="category" id="category-select">
+    <select name="category" id="category-select" onchange="this.form.submit()">
       <option value="">All Categories</option>
-      <option value="fiction">Fiction</option>
-      <option value="non-fiction">Non-Fiction</option>
-      <option value="science">Science</option>
-      <option value="history">History</option>
+      {% for cat in categories %}
+        <option value="{{ cat }}" 
+        {% if selected_category == cat %}
+        selected
+        {% endif %}>
+        {{ cat }}
+      </option>
+      {% endfor %}
     </select>
   </div>
 </div>
