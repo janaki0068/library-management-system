@@ -4,11 +4,10 @@
 <html lang="en">
 
 <head>
-
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
 
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0"/>
+          content="width=device-width, initial-scale=1.0">
 
     <title>Library Dashboard</title>
 
@@ -16,243 +15,247 @@
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- CSS -->
     <link rel="stylesheet"
           href="{% static 'css/admindashboard.css' %}">
-
 </head>
 
 <body>
 
-    <!-- MAIN CONTAINER -->
-    <div class="container">
+<div class="container">
 
-        <!-- NAVBAR -->
-        <nav class="navbar">
+    <!-- NAVBAR -->
 
-            <!-- LOGO -->
-            <div class="nav-logo">
+    <nav class="navbar">
 
-                <h2>LMS</h2>
+        <!-- LOGO -->
 
-            </div>
-
-            <!-- NAV LINKS -->
-            <ul class="nav-links">
-
-                <li>
-                    <a href="#" class="active">
-                        Books
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        Students
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        Transactions
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        Fines
-                    </a>
-                </li>
-
-            </ul>
-
-            <!-- RIGHT SIDE -->
-            <div class="nav-right">
-
-                <!-- NOTIFICATION -->
-                <div class="notification">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                    <span class="dot"></span>
-
-                </div>
-
-                <!-- PROFILE -->
-                <div class="profile">
-
-                    <div class="profile-img">
-                        A
-                    </div>
-
-                    <span>
-                        Admin
-                    </span>
-
-                    <i class="fa-solid fa-chevron-down"></i>
-
-                </div>
-
-            </div>
-
-        </nav>
-
-        <!-- WELCOME SECTION -->
-        <div class="welcome">
-
-            <h1>
-                Welcome Back, Admin!
-            </h1>
-
-            <p>
-                Manage your library smoothly and efficiently.
-            </p>
-
+        <div class="nav-logo">
+            <h1>LMS</h1>
         </div>
 
-        <!-- CARDS -->
-        <div class="cards">
+        <!-- NAVIGATION -->
 
-            <!-- TOTAL BOOKS -->
-            <div class="card card1">
+        <ul class="nav-links">
 
-                <h3>Total Books</h3>
+            <li>
+                <a href="{% url 'dashboard' %}" class="active">
+                    Dashboard
+                </a>
+            </li>
 
-                <h2>{{ total_books }}</h2>
+            <li>
+                <a href="{% url 'books' %}">
+                    Books
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'students' %}">
+                    Students
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'transactions' %}">
+                    Transactions
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'fines' %}">
+                    Fines
+                </a>
+            </li>
+
+        </ul>
+
+        <!-- RIGHT SIDE -->
+
+        <div class="nav-right">
+
+            <div class="notification">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span class="dot"></span>
 
             </div>
 
-            <!-- ACTIVE BORROWS -->
-            <div class="card card2">
+            <div class="profile">
 
-                <h3>Active Borrows</h3>
+                <div class="profile-img">
+                    <i class="fa-regular fa-user"></i>
+                </div>
 
-                <h2>{{ active_borrows }}</h2>
+                <span>Admin</span>
 
-            </div>
-
-            <!-- ACTIVE STUDENTS -->
-            <div class="card card3">
-
-                <h3>Active Students</h3>
-
-                <h2>{{ active_students }}</h2>
-
-            </div>
-
-            <!-- OVERDUE FINES -->
-            <div class="card card4">
-
-                <h3>Overdue Fines</h3>
-
-                <h2>{{ overdue_fines }}</h2>
+                <i class="fa-solid fa-chevron-down"></i>
 
             </div>
 
         </div>
 
-        <!-- CONTENT SECTION -->
-        <div class="content">
+    </nav>
 
-            <!-- OVERDUE BOOKS -->
-            <div class="box">
+    <!-- WELCOME SECTION -->
 
-                <div class="box-header">
+    <section class="welcome">
 
-                    <h2>Overdue Books</h2>
+        <h1>
+            Welcome Back, Admin!
+        </h1>
 
-                    <button>
-                        View All
-                    </button>
+        <p>
+            Manage your library smoothly and efficiently.
+        </p>
 
-                </div>
+    </section>
 
-                <!-- DATABASE LOOP -->
-                {% for borrow in overdue_books %}
+    <!-- STATISTICS CARDS -->
 
-                <div class="item">
+    <section class="cards">
 
-                    <div>
+        <div class="card">
 
-                        <h4>
-                            {{ borrow.book.title }}
-                        </h4>
+            <h3>Total Books</h3>
 
-                        <p>
-                            {{ borrow.student.name }}
-                        </p>
-
-                    </div>
-
-                    <span>
-                        Overdue
-                    </span>
-
-                </div>
-
-                {% empty %}
-
-                <p>No overdue books.</p>
-
-                {% endfor %}
-
-            </div>
-
-            <!-- RECENT ACTIVITY -->
-            <div class="box">
-
-                <div class="box-header">
-
-                    <h2>Recent Activity</h2>
-
-                    <button>
-                        View All
-                    </button>
-
-                </div>
-
-                <!-- DATABASE LOOP -->
-                {% for borrow in recent_borrows %}
-
-                <div class="item">
-
-                    <div>
-
-                        <h4>
-                            {{ borrow.book.title }}
-                        </h4>
-
-                        <p>
-                            {{ borrow.student.name }}
-                        </p>
-
-                    </div>
-
-                    <span>
-                        {{ borrow.borrowed_date }}
-                    </span>
-
-                </div>
-
-                {% empty %}
-
-                <p>No recent activity.</p>
-
-                {% endfor %}
-
-            </div>
+            <h2>{{ total_books }}</h2>
 
         </div>
 
-    </div>
+        <div class="card">
+
+            <h3>Active Borrows</h3>
+
+            <h2>{{ active_borrows }}</h2>
+
+        </div>
+
+        <div class="card active-card">
+
+            <h3>Active Students</h3>
+
+            <h2>{{ active_students }}</h2>
+
+        </div>
+
+        <div class="card">
+
+            <h3>Overdue Fines</h3>
+
+            <h2>{{ overdue_fines }}</h2>
+
+        </div>
+
+    </section>
+
+    <!-- CONTENT SECTION -->
+
+    <section class="content">
+
+        <!-- OVERDUE BOOKS -->
+
+        <div class="box">
+
+            <div class="box-header">
+
+                <h2>Overdue Books</h2>
+
+                <button>
+                    View All
+                </button>
+
+            </div>
+
+            {% for borrow in overdue_books %}
+
+            <div class="item">
+
+                <div>
+
+                    <h4>
+                        {{ borrow.book.title }}
+                    </h4>
+
+                    <p>
+                        {{ borrow.student.name }}
+                    </p>
+
+                </div>
+
+                <span class="danger">
+                    Overdue
+                </span>
+
+            </div>
+
+            {% empty %}
+
+            <p>No overdue books.</p>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+
+        <div class="box">
+
+            <div class="box-header">
+
+                <h2>Recent Activity</h2>
+
+                <button>
+                    View All
+                </button>
+
+            </div>
+
+            {% for borrow in recent_borrows %}
+
+            <div class="item">
+
+                <div>
+
+                    <h4>
+                        {{ borrow.book.title }}
+                    </h4>
+
+                    <p>
+                        {{ borrow.student.name }}
+                    </p>
+
+                </div>
+
+                <span class="date">
+                    {{ borrow.borrowed_date }}
+                </span>
+
+            </div>
+
+            {% empty %}
+
+            <p>No recent activity.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</div>
 
 </body>
-
 </html>

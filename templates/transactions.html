@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+
+<div class="transactions-page">
+
+    <!-- TOP SECTION -->
+
+    <div class="top-header">
+
+        <div>
+
+            <a href="{% url 'dashboard' %}" class="back-btn">
+                ← Back
+            </a>
+
+            <h1 class="page-title">
+                Transactions 🔄
+            </h1>
+
+            <p class="page-subtitle">
+                Manage issued and returned books easily.
+            </p>
+
+        </div>
+
+        <a href="{% url 'issue_book' %}" class="add-btn">
+            + Issue Book
+        </a>
+
+    </div>
+
+    <!-- CARDS -->
+
+    <div class="cards-container">
+
+        <div class="card purple-card">
+            <h3>Total Transactions</h3>
+            <h1>{{ total_transactions }}</h1>
+        </div>
+
+        <div class="card green-card">
+            <h3>Returned Books</h3>
+            <h1>{{ returned_books }}</h1>
+        </div>
+
+        <div class="card pink-card">
+            <h3>Pending Returns</h3>
+            <h1>{{ pending_returns }}</h1>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-wrapper">
+
+        <div class="table-header">
+            <h2>Recent Transactions 📚</h2>
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for transaction in transactions %}
+
+                <tr>
+
+                    <td>{{ transaction.id }}</td>
+
+                    <td>{{ transaction.student.name }}</td>
+
+                    <td>{{ transaction.book.title }}</td>
+
+                    <td>{{ transaction.borrowed_date }}</td>
+
+                    <td>{{ transaction.return_date }}</td>
+
+                    <td>
+
+                        {% if transaction.is_returned %}
+
+                            <span class="returned-status">
+                                Returned
+                            </span>
+
+                        {% else %}
+
+                            <span class="issued-status">
+                                Issued
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a href="#" class="delete-btn">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="7" style="text-align:center;">
+                        No transactions found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

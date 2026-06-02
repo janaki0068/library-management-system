@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/issue_book.css' %}">
+
+<div class="issue-page">
+
+    <!-- HEADER -->
+
+    <div class="top-section">
+
+        <div>
+
+            <br>
+
+            <a href="{% url 'transactions' %}" class="back-btn">
+                ← Back
+            </a>
+
+            <h1>Issue Book 📚</h1>
+
+            <p>
+                Assign books to students and manage borrowing records.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- FORM -->
+
+    <div class="form-container">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+
+                <label>Student</label>
+
+                <select name="student" required>
+
+                    {% for student in students %}
+
+                    <option value="{{ student.id }}">
+                        {{ student.name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Book</label>
+
+                <select name="book" required>
+
+                    {% for book in books %}
+
+                    <option value="{{ book.id }}">
+                        {{ book.title }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Issue Date</label>
+
+                <input
+                    type="date"
+                    name="borrowed_date"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Return Date</label>
+
+                <input
+                    type="date"
+                    name="return_date"
+                    required
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Status</label>
+
+                <select name="is_returned">
+
+                    <option value="False">
+                        Issued
+                    </option>
+
+                    <option value="True">
+                        Returned
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="button-group">
+
+                <button type="submit" class="save-btn">
+                    Issue Book
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-wrapper">
+
+        <h2>Issued Books 📖</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for transaction in transactions %}
+
+                <tr>
+
+                    <td>{{ transaction.id }}</td>
+
+                    <td>{{ transaction.student.name }}</td>
+
+                    <td>{{ transaction.book.title }}</td>
+
+                    <td>{{ transaction.borrowed_date }}</td>
+
+                    <td>{{ transaction.return_date }}</td>
+
+                    <td>
+
+                        {% if transaction.is_returned %}
+
+                            <span class="returned-status">
+                                Returned
+                            </span>
+
+                        {% else %}
+
+                            <span class="issued-status">
+                                Issued
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6" style="text-align:center;">
+                        No transactions found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

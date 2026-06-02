@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/add_student.css' %}">
+
+<div class="student-form-page">
+
+    <!-- HEADER -->
+
+    <div class="top-section">
+
+        <div>
+            <a href="{% url 'students' %}" class="back-btn">
+                ← Back
+            </a>
+
+            <h1>Add Student ✨</h1>
+            <p>Add, update or remove student details.</p>
+        </div>
+
+    </div>
+
+    <!-- FORM -->
+
+    <div class="form-container">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter student name"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Phone Number</label>
+
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label>Department</label>
+
+                <select name="department" required>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="BCA">BCA</option>
+                    <option value="BBS">BBS</option>
+                    <option value="BIM">BIM</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Status</label>
+
+                <select name="active">
+                    <option value="True">Active</option>
+                    <option value="False">Inactive</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+
+                <button type="submit" class="save-btn">
+                    Save Student
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- STUDENTS TABLE -->
+
+    <div class="table-wrapper">
+
+        <h2>Registered Students 📚</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for student in students %}
+
+                <tr>
+
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>{{ student.phone }}</td>
+                    <td>{{ student.department }}</td>
+
+                    <td>
+
+                        {% if student.active %}
+
+                            <span class="active-status">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="inactive-status">
+                                Inactive
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6" style="text-align:center;">
+                        No students found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

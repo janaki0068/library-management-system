@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/books.css' %}">
+
+<div class="students-page">
+
+    <!-- TOP SECTION -->
+    <div class="top-header">
+
+        <div class="header-left">
+
+            <a href="{% url 'dashboard' %}" class="back-btn">
+                ← Back
+            </a>
+
+            <h1 class="page-title">
+                Books 📚
+            </h1>
+
+            <p class="page-subtitle">
+                Manage library books easily.
+            </p>
+
+        </div>
+
+        <a href="{% url 'add_book' %}" class="add-btn">
+            + Add Book
+        </a>
+
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards-container">
+
+        <div class="card pink-card">
+            <h3>Total Books</h3>
+            <h1>{{ total_books }}</h1>
+        </div>
+
+        <div class="card green-card">
+            <h3>Available Books</h3>
+            <h1>{{ available_books }}</h1>
+        </div>
+
+        <div class="card blue-card">
+            <h3>Issued Books</h3>
+            <h1>{{ issued_books }}</h1>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+        <div class="table-header">
+            <h2>Books List 📖</h2>
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>ISBN</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for book in books %}
+
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.category }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.quantity }}</td>
+
+                    <td>
+                        {% if book.available %}
+                            <span class="active-status">
+                                Available
+                            </span>
+                        {% else %}
+                            <span class="inactive-status">
+                                Issued
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="7" style="text-align:center;">
+                        No books found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/fines.css' %}">
+
+<div class="students-page">
+
+    <!-- TOP SECTION -->
+    <div class="top-header">
+
+        <div>
+
+            <a href="{% url 'dashboard' %}" class="back-btn">
+                ← Back
+            </a>
+
+            <h1 class="page-title">
+                Fines 💰
+            </h1>
+
+            <p class="page-subtitle">
+                Manage student fines and payments.
+            </p>
+
+        </div>
+
+        <a href="{% url 'add_fine' %}" class="add-btn">
+            + Add Fine
+        </a>
+
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards-container">
+
+        <div class="card pink-card">
+            <h3>Total Fines</h3>
+            <h1>₹{{ total_fines }}</h1>
+        </div>
+
+        <div class="card green-card">
+            <h3>Paid Fines</h3>
+            <h1>₹{{ paid_fines }}</h1>
+        </div>
+
+        <div class="card blue-card">
+            <h3>Pending Fines</h3>
+            <h1>₹{{ pending_fines }}</h1>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrapper">
+
+        <div class="table-header">
+            <h2>Fines List 📄</h2>
+        </div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student Name</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for fine in fines %}
+
+                <tr>
+
+                    <td>{{ fine.id }}</td>
+
+                    <td>{{ fine.student.name }}</td>
+
+                    <td>₹{{ fine.amount }}</td>
+
+                    <td>{{ fine.date }}</td>
+
+                    <td>
+                        {% if fine.paid %}
+                            <span class="active-status">
+                                Paid
+                            </span>
+                        {% else %}
+                            <span class="inactive-status">
+                                Unpaid
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="#" class="delete-btn">
+                            Delete
+                        </a>
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="6" style="text-align:center;">
+                        No fines found.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
