@@ -15,12 +15,13 @@
         <h1>LMS</h1>
     </div>
     <div class="user-nav-links">
-        <a href="#">Browse Books</a>
-        <a href="#">Books</a>
-        <a href="#">Fines</a>
+        <a href="{% url "user_dashboard" %}">Profile</a>
+        <a href="{% url "browse_books" %}">Browse Books</a>
+        <a href="{% url "user_books" %}">Books</a>
+        <a href="{% url "user_fines" %}">Fines</a>
     </div>
     <div class="logout-link">
-        <a href="#">
+        <a href="{% url "logout" %}">
             <span class="material-symbols-outlined">
                 logout
             </span>
@@ -31,11 +32,22 @@
 <h3>My Profile</h3>
 
 <div class="user-profile">
-    <div class="left-panel">
+    <div class="user-left-panel">
         <div class="profile-box">
-            <img src="{% static "images/user-profile.jpg" %}" alt="User Profile Image">
-            <h1>John Doe</h1>
-            <p>STU2026</p>
+            <form action="POST" action="{% url 'profile_picture' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if student.profile_picture %}
+                <img src="{{student.profile_picture.url}}" alt="User Profile Image">
+                {% else %}
+                <img src="{% static 'images/user-profile.jpg' %}" alt="User Profile Image">
+                {% endif %}
+                <label for="profile-picture-input" class="edit-profile-picture">
+                    <span class="material-symbols-outlined">edit</span>
+                </label>
+                <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*" style="display:none;" onchange="this.form.submit()">
+            </form>
+            <h1>{{request.user.get_full_name}}</h1>
+            <p>{{student.student_id}}</p>
 
             <hr>
 
@@ -43,36 +55,64 @@
                 <span class="material-symbols-outlined left-icon">call</span>
                 <div class="info-text">
                     <h1>Phone</h1>
-                    <p id="phone-text">123-456-7890</p>
-                    <input type="text" id="phone-input" value="123-456-7890" style="display:none;">
+                    <p id="phone-text">{{student.phone|default:"N/A"}}</p>
+                    <input type="tel" id="phone-input" value="{{ student.phone|default:"N/A" }}" style="display:none;">
                 </div>
-                <span class="material-symbols-outlined right-icon">edit</span>
+                <span class="material-symbols-outlined right-icon edit-phone">edit</span>
             </div>
 
             <div class="info-icon">
                 <span class="material-symbols-outlined left-icon">mail</span>
                 <div class="info-text">
                     <h1>Email</h1>
-                    <p id="email-text">john.doe@example.com</p>
-                    <input type="text" id="email-input" value="john.doe@example.com" style="display:none;">
+                    <p id="email-text">{{request.user.email}}</p>
+                    <input type="text" id="email-input" value="{{request.user.email}}" style="display:none;">
                 </div>
-                <span class="material-symbols-outlined right-icon">edit</span>
+                <span class="material-symbols-outlined right-icon edit-email">edit</span>
             </div>
 
             <div class="info-icon">
                 <span class="material-symbols-outlined left-icon">calendar_today</span>
                 <div class="info-text">
                     <h1>Member Since</h1>
-                    <p>January 1, 2020</p>
+                    <p>{{request.user.date_joined|date:"F j, Y"}}</p>
                 </div>
             </div>
 
         </div>
     </div>
-    <div class="right-panel">
-        <div class="box-1">1</div>
-        <div class="box-2">2</div>
-        <div class="box-3">3</div>
+    <div class="user-right-panel">
+        <div class="stats-container">
+            <div class="box box-1">
+            <h1>Total Borrowed</h1>
+            <p>{{ borrowed_books }}</p>
+        </div>
+        <div class="box box-2">
+            <h1>Total Returned</h1>
+            <p>{{ returned_books }}</p>
+        </div>
+        <div class="box box-3">
+            <h1>Fines</h1>
+            <p>Rs. {{ total_fines }}</p>
+        </div>
+        </div>
+        <div class="account-info-box">
+        <h2>Account Information</h2>
+        <div class="account-details">
+            <div class="detail-group">
+                <span class="label">Student ID : </span>
+                <span class="value">{{student.student_id}}</span>
+            </div>
+            <div class="detail-group">
+                <span class="label">Total Books Read : </span>
+                <span class="value">{{returned_books}}</span>
+            </div>
+            <div class="detail-group">
+                <span class="label">Registration Date : </span>
+                <span class="value">{{request.user.date_joined|date:"m/d/Y"}}</span>
+            </div>
+        </div>
+    </div>
     </div>
 </div>
 

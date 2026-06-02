@@ -1,7 +1,8 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 
 urlpatterns = [
+
     path('', views.index, name='index'),
 
     path('login/', views.login, name='login'),
@@ -20,4 +21,5 @@ urlpatterns = [
 
     path('fines/', views.fines, name='fines'),
     path('add-fine/', views.add_fine, name='add_fine'),
+
 ]
