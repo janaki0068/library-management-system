@@ -1,4 +1,4 @@
-from time import timezone
+from django.utils import timezone
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
