@@ -2,6 +2,7 @@ from django.utils import timezone
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
@@ -21,33 +22,27 @@ def index(request):
 
 def login(request):
 
-    if request.method == "POST":
-
+    if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        remember_me = request.POST.get('remember_me')
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
-
             auth_login(request, user)
+
+            if not remember_me:
+                request.session.set_expiry(0)
+
+            else:
+                request.session.set_expiry(86400 * 7)
 
             if user.is_staff:
                 return redirect('dashboard')
-
-            return redirect('dashboard')
-
-        return render(
-            request,
-            'login.html',
-            {
-                'error': 'Invalid username or password'
-            }
-        )
+            else:
+                return redirect('user_dashboard')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid username or password'})
 
     return render(request, 'login.html')
 
@@ -57,11 +52,15 @@ def login(request):
 def register(request):
 
     if request.method == "POST":
-
-        username = request.POST.get('username')
+        full_name = request.POST.get('full_name')
         email = request.POST.get('email')
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        student_id = request.POST.get('student_id')
+        dob = request.POST.get('dob')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
+        role = request.POST.get('role')
 
         if password != confirm_password:
 
@@ -87,11 +86,37 @@ def register(request):
                 'register.html'
             )
 
-        User.objects.create_user(
+        if User.objects.filter(email=email).exists():
+
+            messages.error(request, 'Email already exists')
+
+            return render(request, 'register.html')
+
+        name_parts = full_name.split(' ', 1)
+
+        first_name = name_parts[0]
+
+        last_name = name_parts[1] if len(name_parts) > 1 else ''
+
+        user = User.objects.create_user(
             username=username,
             email=email,
-            password=password
+            password=password,
+            first_name=first_name,
+            last_name=last_name
         )
+
+        if role == 'admin':
+            user.is_staff = True
+            user.save()
+
+        Student.objects.create(
+            user=user,
+            student_id=student_id,
+            phone=phone,
+            date_of_birth=dob if dob else None
+        )
+        messages.success(request, 'Account created successfully')
 
         return redirect('login')
 
@@ -108,6 +133,10 @@ def logout(request):
     auth_logout(request)
 
     return redirect('index')
+
+
+def forgot_password(request):
+    return render(request, 'forgot_password.html')
 
 
 # DASHBOARD
@@ -152,7 +181,160 @@ def dashboard(request):
     )
 
 
+@login_required
+def user_dashboard(request):
+
+    try:
+
+        student = Student.objects.get(user=request.user)
+
+        borrowed_books = Transaction.objects.filter(
+
+            student=student, is_returned=False).count()
+
+        returned_books = Transaction.objects.filter(
+
+            student=student, is_returned=True).count()
+
+        fines = Fine.objects.filter(student=student, paid=False)
+
+        total_fines = sum(fine.amount for fine in fines)
+
+    except Student.DoesNotExist:
+
+        student = None
+
+        borrowed_books = returned_books = total_fines = 0
+
+    context = {
+        'student': student,
+        'borrowed_books': borrowed_books,
+        'returned_books': returned_books,
+        'total_fines': total_fines,
+    }
+
+    return render(request, 'userdashboard.html', context)
+
+
+@login_required
+def profile_picture(request):
+
+    if request.method == 'POST':
+
+        student = Student.objects.get(user=request.user)
+
+    if request.FILES.get('profile_picture'):
+
+        student.profile_picture = request.FILES['profile_picture']
+
+    student.save()
+
+    return redirect('user_dashboard')
+
+
+@login_required
+def browse_books(request):
+
+    query = request.GET.get('q', '')
+
+    category = request.GET.get('category', '')
+
+    books = Book.objects.all()
+
+    if query:
+
+        books = books.filter(title__icontains=query) | books.filter(
+
+            author__icontains=query)
+
+    if category:
+        books = books.filter(category__icontains=category)
+
+    categories = Book.objects.exclude(category='').values_list(
+            'category', flat=True).distinct()
+
+    context = {
+
+        'books': books,
+
+        'query': query,
+
+        'selected_category': category,
+
+        'categories': categories,
+
+    }
+
+    return render(request, 'browsebooks.html', context)
+
+
+@login_required
+def user_books(request):
+
+    try:
+
+        student = Student.objects.get(user=request.user)
+
+        transactions = Transaction.objects.filter(
+
+            student=student, is_returned=False)
+
+        today = timezone.now().date()
+
+        for t in transactions:
+
+            if t.return_date:
+
+                if t.return_date < today:
+
+                    t.status = 'overdue'
+
+                elif t.return_date - today <= timezone.timedelta(days=3):
+
+                    t.status = 'due_soon'
+
+                else:
+
+                    t.status = 'active'
+
+            else:
+
+                t.status = 'active'
+
+    except Student.DoesNotExist:
+
+        transactions = []
+
+    context = {
+        'transactions': transactions,
+    }
+
+    return render(request, 'userbooks.html', context)
+
+
+@login_required
+def user_fines(request):
+
+    try:
+
+        student = Student.objects.get(user=request.user)
+
+        fines = Fine.objects.filter(student=student, paid=False)
+
+        total_fines = sum(fine.amount for fine in fines)
+
+    except Student.DoesNotExist:
+        fines = []
+        total_fines = 0
+
+    context = {
+        'fines': fines,
+        'total_fines': total_fines,
+    }
+    return render(request, 'userfines.html', context)
+
 # STUDENTS
+
 
 def students(request):
 
