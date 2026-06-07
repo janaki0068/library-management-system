@@ -22,10 +22,12 @@ urlpatterns = [
     path('students/', views.students, name='students'),
     path('add-student/', views.add_student, name='add_student'),
     path('delete-student/<int:student_id>/',views.delete_student,name='delete_student'),
+    path('update-student/<int:id>/',views.update_student,name='update_student'),
 
     path('books/', views.books, name='books'),
     path('add-book/', views.add_book, name='add_book'),
     path('books/delete/<int:id>/', views.delete_book, name='delete_book'),
+    path('books-update/<int:id>/', views.update_book, name='update_book'),
 
     path('transactions/', views.transactions, name='transactions'),
     path('issue-book/', views.issue_book, name='issue_book'),

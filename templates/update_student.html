@@ -1,0 +1,53 @@
+{% extends 'admin_base.html' %} {% load static %} 
+{% block title %}Update Student{% endblock %} 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/students.css' %}" />
+{% endblock %} 
+{% block content %}
+<div class="students-page">
+  <div class="top-header">
+    <div class="header-left">
+      <a href="{% url 'students' %}" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </a>
+      <h1 class="page-title">Update Student 🎓</h1>
+      <p class="page-subtitle">Edit student details below.</p>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" value="{{ student.name }}" required />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ student.email }}" required />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" name="phone" value="{{ student.phone }}" />
+      </div>
+      <div class="form-group">
+        <label>Department</label>
+        <input type="text" name="department" value="{{ student.department }}" />
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select name="active">
+          <option value="True" {% if student.active %}selected{% endif %}>
+            Active
+          </option>
+          <option value="False" {% if not student.active %}selected{% endif %}>
+            Inactive
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="add-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "admin_base.html" %} {% load static %} 
+{% block title %}Update Book{%endblock %} 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/books.css' %}" />
+{% endblock %} 
+{% block content %}
+
+<div class="students-page">
+  <div class="top-header">
+    <div class="header-left">
+      <a href="{% url 'books' %}" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </a>
+      <h1 class="page-title">Update Book 📚</h1>
+      <p class="page-subtitle">Edit book details below.</p>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" value="{{ book.title }}" required />
+      </div>
+      <div class="form-group">
+        <label>Author</label>
+        <input type="text" name="author" value="{{ book.author }}" required />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" name="category" value="{{ book.category }}" />
+      </div>
+      <div class="form-group">
+        <label>ISBN</label>
+        <input type="text" name="isbn" value="{{ book.isbn }}" />
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input
+          type="number"
+          name="quantity"
+          value="{{ book.quantity }}"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select name="available">
+          <option value="True" {% if book.available %}selected{% endif %}>
+            Available
+          </option>
+          <option value="False" {% if not book.available %}selected{% endif %}>
+            Issued
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="add-btn">Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

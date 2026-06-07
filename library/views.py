@@ -553,3 +553,56 @@ def delete_fine(request, id):
     fine = Fine.objects.get(id=id)
     fine.delete()
     return redirect('fines')
+
+
+def update_book(request, id):
+
+    book = Book.objects.get(id=id)
+
+    if request.method == "POST":
+
+        book.title = request.POST['title']
+        book.author = request.POST['author']
+        book.category = request.POST['category']
+        book.isbn = request.POST['isbn']
+        book.quantity = request.POST['quantity']
+        book.available = request.POST['available'] == "True"
+        book.save()
+        messages.success(request, "Book updated successfully.")
+        return redirect('books')
+
+    context = {
+        'book': book
+    }
+
+    return render(
+        request,
+        'update_book.html',
+        context
+    )
+
+
+def update_student(request, id):
+
+    student = Student.objects.get(id=id)
+
+    if request.method == "POST":
+
+        student.name = request.POST['name']
+        student.email = request.POST['email']
+        student.phone = request.POST['phone']
+        student.department = request.POST['department']
+        student.active = request.POST['active'] == "True"
+        student.save()
+        messages.success(request, "Student updated successfully.")
+        return redirect('students')
+
+    context = {
+        'student': student
+    }
+
+    return render(
+        request,
+        'update_student.html',
+        context
+    )

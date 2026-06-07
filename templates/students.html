@@ -148,7 +148,13 @@ Students
                     </td>
 
                     <td>
+                        <a href="{% url 'update_student' student.id %}"
+                           class="edit-btn">
 
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Edit
+
+                        </a>
                         <a href="{% url 'delete_student' student.id %}"
                            class="delete-btn"
                            onclick="return confirm('Delete this student?')">
