@@ -19,13 +19,21 @@ class Student(models.Model):
         return self.name
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+    
 # BOOK MODEL
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
-    category = models.CharField(
-        max_length=100,
-        default='General'
+    category = models.ForeignKey(Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
     )
     isbn = models.CharField(
         max_length=50,
@@ -91,3 +99,4 @@ class Fine(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.amount}"
+    

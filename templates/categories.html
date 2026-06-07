@@ -1,0 +1,74 @@
+{% extends 'admin_base.html' %} 
+{% load static %} 
+{% block title %}Categories{%endblock %} 
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/books.css' %}" />
+{% endblock %} 
+
+{% block content %}
+<div class="students-page">
+  <div class="top-header">
+    <div class="header-left">
+      <a href="{% url 'dashboard' %}" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+      </a>
+      <h1 class="page-title">Categories</h1>
+      <p class="page-subtitle">Manage book categories.</p>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <form method="POST" action="{% url 'add_category' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Category Name</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter category name"
+          required
+        />
+      </div>
+      <button type="submit" class="add-btn">Add Category</button>
+    </form>
+
+    <br />
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+        <tr>
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>
+            <a
+              href="{% url 'delete_category' category.id %}"
+              class="delete-btn"
+              onclick="return confirm('Delete this category?');"
+            >
+              <i class="fa-solid fa-trash"></i>
+              Delete
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="empty-row">
+            <p>No categories found.</p>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

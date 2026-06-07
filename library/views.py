@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.utils import timezone
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -105,6 +107,8 @@ def register(request):
 
         Student.objects.create(
             user=user,
+            name= full_name,
+            email=email,
             student_id=student_id,
             phone=phone,
             date_of_birth=dob if dob else None
@@ -606,3 +610,39 @@ def update_student(request, id):
         'update_student.html',
         context
     )
+
+
+def categories(request):
+    categories = Category.objects.all()
+
+    context = {
+        'categories': categories
+    }
+
+    return render(
+        request,
+        'categories.html',
+        context
+    )
+
+def add_category(request):
+
+    if request.method == "POST":
+        name = request.POST['name']
+        if name:
+            Category.objects.create(name=name)
+            messages.success(request, "Category added successfully.")
+
+        context = {
+            'categories': Category.objects.all()
+        }
+
+        return redirect('categories')
+    return render(request,'categories.html', context
+    )       
+
+def delete_category(request, id):
+    category = Category.objects.get(id=id)
+    category.delete()
+    messages.success(request, "Category deleted successfully.")
+    return redirect('categories')

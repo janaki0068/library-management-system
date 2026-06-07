@@ -1,138 +1,124 @@
 {% load static %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="UTF-8">
+    <title>{% block title %} LMS Admin {% endblock %}</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-    <title>
-        {% block title %}
-            LMS Admin
-        {% endblock %}
-    </title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
 
     <!-- COMMON CSS -->
-    <link rel="stylesheet"
-          href="{% static 'css/admin_base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_base.css' %}" />
 
     <!-- PAGE SPECIFIC CSS -->
-    {% block extra_css %}
-    {% endblock %}
+    {% block extra_css %} {% endblock %}
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <!-- NAVBAR -->
 
-   <nav class="navbar">
-
-    <div class="nav-logo">
+    <nav class="navbar">
+      <div class="nav-logo">
         <h1>LMS</h1>
-    </div>
+      </div>
 
-    <ul class="nav-links">
-
+      <ul class="nav-links">
         <li>
-            <a href="{% url 'dashboard' %}"
-               class="{% if active_page == 'dashboard' %}active{% endif %}">
-                Dashboard
-            </a>
+          <a
+            href="{% url 'dashboard' %}"
+            class="{% if active_page == 'dashboard' %}active{% endif %}"
+          >
+            Dashboard
+          </a>
         </li>
 
         <li>
-            <a href="{% url 'books' %}"
-               class="{% if active_page == 'books' %}active{% endif %}">
-                Books
-            </a>
+          <a
+            href="{% url 'books' %}"
+            class="{% if active_page == 'books' %}active{% endif %}"
+          >
+            Books
+          </a>
         </li>
 
         <li>
-            <a href="{% url 'students' %}"
-               class="{% if active_page == 'students' %}active{% endif %}">
-                Students
-            </a>
+          <a
+            href="{% url 'students' %}"
+            class="{% if active_page == 'students' %}active{% endif %}"
+          >
+            Students
+          </a>
         </li>
 
         <li>
-            <a href="{% url 'transactions' %}"
-               class="{% if active_page == 'transactions' %}active{% endif %}">
-                Transactions
-            </a>
+          <a
+            href="{% url 'transactions' %}"
+            class="{% if active_page == 'transactions' %}active{% endif %}"
+          >
+            Transactions
+          </a>
         </li>
 
         <li>
-            <a href="{% url 'fines' %}"
-               class="{% if active_page == 'fines' %}active{% endif %}">
-                Fines
-            </a>
+          <a
+            href="{% url 'fines' %}"
+            class="{% if active_page == 'fines' %}active{% endif %}"
+          >
+            Fines
+          </a>
         </li>
+        <li>
+          <a href="{% url 'categories' %}" class="btn btn-primary"
+            >Manage Categories</a
+          >
+        </li>
+      </ul>
 
-    </ul>
-
-    <div class="nav-right">
-
+      <div class="nav-right">
         <div class="notification">
-            <i class="fa-regular fa-bell"></i>
-            <span class="dot"></span>
+          <i class="fa-regular fa-bell"></i>
+          <span class="dot"></span>
         </div>
 
         <a href="{% url 'logout' %}" class="logout-btn">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Logout
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Logout
         </a>
-
-    </div>
-
-</nav>
+      </div>
+    </nav>
 
     <!-- DJANGO MESSAGES -->
 
     {% if messages %}
 
-        <div class="message-container">
+    <div class="message-container">
+      {% for message in messages %}
 
-            {% for message in messages %}
+      <div class="message {{ message.tags }}">{{ message }}</div>
 
-                <div class="message {{ message.tags }}">
-
-                    {{ message }}
-
-                </div>
-
-            {% endfor %}
-
-        </div>
+      {% endfor %}
+    </div>
 
     {% endif %}
 
     <!-- PAGE CONTENT -->
 
-    <main>
-
-        {% block content %}
-        {% endblock %}
-
-    </main>
-
-</body>
-
+    <main>{% block content %} {% endblock %}</main>
+  </body>
 </html>

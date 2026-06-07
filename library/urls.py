@@ -37,4 +37,8 @@ urlpatterns = [
     path('add-fine/', views.add_fine, name='add_fine'),
     path('delete-fine/<int:id>/',views.delete_fine,name='delete_fine'),
 
+    path('categories/', views.categories, name='categories'),
+    path('add-category/', views.add_category, name='add_category'),
+    path('delete-category/<int:id>/',views.delete_category,name='delete_category'),
+
 ]
