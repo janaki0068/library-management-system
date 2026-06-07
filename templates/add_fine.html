@@ -1,174 +1,212 @@
-{% extends 'base.html' %}
+{% extends 'admin_base.html' %}
 {% load static %}
+
+{% block title %}
+Add Fine
+{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/add_fine.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/add_fine.css' %}">
+<div class="students-page">
 
-<div class="fine-form-page">
 
-    <!-- HEADER -->
+<!-- HEADER -->
 
-    <div class="top-section">
+<div class="top-header">
 
-        <div>
-            <a href="{% url 'fines' %}" class="back-btn">
-                ← Back
-            </a>
+    <div class="header-left">
 
-            <h1>Add Fine 💰</h1>
+        <a href="{% url 'fines' %}"
+           class="back-btn">
 
-            <p>
-                Add, update or manage student fines.
-            </p>
-        </div>
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
 
-    </div>
+        </a>
 
-    <!-- FORM -->
+        <h1 class="page-title">
+            Add Fine 💰
+        </h1>
 
-    <div class="form-container">
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-            <div class="input-group">
-                <label>Student</label>
-
-                <select name="student" required>
-
-                    {% for student in students %}
-
-                    <option value="{{ student.id }}">
-                        {{ student.name }}
-                    </option>
-
-                    {% endfor %}
-
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label>Amount (Rs.)</label>
-
-                <input
-                    type="number"
-                    name="amount"
-                    placeholder="Enter amount"
-                    required
-                >
-            </div>
-
-            <div class="input-group">
-                <label>Date</label>
-
-                <input
-                    type="date"
-                    name="date"
-                    required
-                >
-            </div>
-
-            <div class="input-group">
-                <label>Status</label>
-
-                <select name="paid">
-
-                    <option value="True">
-                        Paid
-                    </option>
-
-                    <option value="False">
-                        Unpaid
-                    </option>
-
-                </select>
-            </div>
-
-            <div class="button-group">
-
-                <button type="submit" class="save-btn">
-                    Save Fine
-                </button>
-
-            </div>
-
-        </form>
+        <p class="page-subtitle">
+            Add, update or manage student fines.
+        </p>
 
     </div>
 
-    <!-- TABLE -->
+</div>
 
-    <div class="table-wrapper">
+<!-- FORM -->
 
-        <h2>Fine Records 💸</h2>
+<div class="form-container">
 
-        <table>
+    <form method="POST">
 
-            <thead>
+        {% csrf_token %}
 
-                <tr>
-                    <th>ID</th>
-                    <th>Student</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
+        <div class="input-group">
 
-            </thead>
+            <label>Student</label>
 
-            <tbody>
+            <select name="student" required>
 
-                {% for fine in fines %}
+                {% for student in students %}
 
-                <tr>
-
-                    <td>{{ fine.id }}</td>
-
-                    <td>{{ fine.student.name }}</td>
-
-                    <td>Rs. {{ fine.amount }}</td>
-
-                    <td>{{ fine.date }}</td>
-
-                    <td>
-
-                        {% if fine.paid %}
-
-                            <span class="available-status">
-                                Paid
-                            </span>
-
-                        {% else %}
-
-                            <span class="borrowed-status">
-                                Unpaid
-                            </span>
-
-                        {% endif %}
-
-                    </td>
-
-                </tr>
-
-                {% empty %}
-
-                <tr>
-
-                    <td colspan="5" style="text-align:center;">
-                        No fine records found.
-                    </td>
-
-                </tr>
+                <option value="{{ student.id }}">
+                    {{ student.name }}
+                </option>
 
                 {% endfor %}
 
-            </tbody>
+            </select>
 
-        </table>
+        </div>
+
+        <div class="input-group">
+
+            <label>Amount (₹)</label>
+
+            <input type="number"
+                   name="amount"
+                   placeholder="Enter amount"
+                   required>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Date</label>
+
+            <input type="date"
+                   name="date"
+                   required>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Status</label>
+
+            <select name="paid">
+
+                <option value="True">
+                    Paid
+                </option>
+
+                <option value="False">
+                    Unpaid
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="button-group">
+
+            <button type="submit"
+                    class="add-btn">
+
+                <i class="fa-solid fa-floppy-disk"></i>
+                Save Fine
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- FINES TABLE -->
+
+<div class="table-wrapper">
+
+    <div class="table-header">
+
+        <h2>
+            Fine Records 💸
+        </h2>
 
     </div>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Student</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for fine in fines %}
+
+            <tr>
+
+                <td>{{ fine.id }}</td>
+
+                <td>{{ fine.student.name }}</td>
+
+                <td>₹{{ fine.amount }}</td>
+
+                <td>{{ fine.date }}</td>
+
+                <td>
+
+                    {% if fine.paid %}
+
+                    <span class="active-status">
+                        Paid
+                    </span>
+
+                    {% else %}
+
+                    <span class="inactive-status">
+                        Unpaid
+                    </span>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="5"
+                    class="empty-row">
+
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+
+                    <p>No fine records found.</p>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
 
 </div>
 

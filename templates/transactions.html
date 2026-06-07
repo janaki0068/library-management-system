@@ -1,20 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'admin_base.html' %}
 {% load static %}
+
+{% block title %}
+Transactions
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/transactions.css' %}">
+<div class="students-page">
 
-<div class="transactions-page">
-
-    <!-- TOP SECTION -->
+    <!-- HEADER -->
 
     <div class="top-header">
 
-        <div>
+        <div class="header-left">
 
-            <a href="{% url 'dashboard' %}" class="back-btn">
-                ← Back
+            <a href="{% url 'dashboard' %}"
+               class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+
             </a>
 
             <h1 class="page-title">
@@ -27,45 +37,70 @@
 
         </div>
 
-        <a href="{% url 'issue_book' %}" class="add-btn">
-            + Issue Book
+        <a href="{% url 'issue_book' %}"
+           class="add-btn">
+
+            <i class="fa-solid fa-plus"></i>
+            Add Transaction
+
         </a>
 
     </div>
 
-    <!-- CARDS -->
+    <!-- STATS CARDS -->
 
     <div class="cards-container">
 
         <div class="card purple-card">
+
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
             <h3>Total Transactions</h3>
+
             <h1>{{ total_transactions }}</h1>
+
         </div>
 
         <div class="card green-card">
+
+            <i class="fa-solid fa-circle-check"></i>
+
             <h3>Returned Books</h3>
+
             <h1>{{ returned_books }}</h1>
+
         </div>
 
         <div class="card pink-card">
+
+            <i class="fa-solid fa-clock"></i>
+
             <h3>Pending Returns</h3>
+
             <h1>{{ pending_returns }}</h1>
+
         </div>
 
     </div>
 
-    <!-- TABLE -->
+    <!-- TRANSACTIONS TABLE -->
 
     <div class="table-wrapper">
 
         <div class="table-header">
-            <h2>Recent Transactions 📚</h2>
+
+            <h2>
+                Transactions List 📚
+            </h2>
+
         </div>
 
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>ID</th>
                     <th>Student</th>
                     <th>Book</th>
@@ -73,7 +108,9 @@
                     <th>Return Date</th>
                     <th>Status</th>
                     <th>Action</th>
+
                 </tr>
+
             </thead>
 
             <tbody>
@@ -90,21 +127,21 @@
 
                     <td>{{ transaction.borrowed_date }}</td>
 
-                    <td>{{ transaction.return_date }}</td>
+                    <td>{{ transaction.return_date|default:"-" }}</td>
 
                     <td>
 
                         {% if transaction.is_returned %}
 
-                            <span class="returned-status">
-                                Returned
-                            </span>
+                        <span class="active-status">
+                            Returned
+                        </span>
 
                         {% else %}
 
-                            <span class="issued-status">
-                                Issued
-                            </span>
+                        <span class="inactive-status">
+                            Issued
+                        </span>
 
                         {% endif %}
 
@@ -112,8 +149,13 @@
 
                     <td>
 
-                        <a href="#" class="delete-btn">
+                        <a href="{% url 'delete_transaction' transaction.id %}"
+                           class="delete-btn"
+                           onclick="return confirm('Delete this transaction?')">
+
+                            <i class="fa-solid fa-trash"></i>
                             Delete
+
                         </a>
 
                     </td>
@@ -124,8 +166,13 @@
 
                 <tr>
 
-                    <td colspan="7" style="text-align:center;">
-                        No transactions found.
+                    <td colspan="7"
+                        class="empty-row">
+
+                        <i class="fa-solid fa-book-open"></i>
+
+                        <p>No transactions found.</p>
+
                     </td>
 
                 </tr>

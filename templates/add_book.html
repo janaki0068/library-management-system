@@ -1,169 +1,214 @@
-{% extends 'base.html' %}
+{% extends 'admin_base.html' %}
 {% load static %}
+
+{% block title %}
+Add Book
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/add_book.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/add_book.css' %}">
+<div class="students-page">
 
-<div class="book-form-page">
+    <!-- HEADER -->
 
-```
-<!-- HEADER -->
-<div class="top-section">
+    <div class="top-header">
 
-    <div>
-        <a href="{% url 'books' %}" class="back-btn">
-            ← Back
-        </a>
+        <div class="header-left">
 
-        <h1>Add New Book 📚</h1>
+            <a href="{% url 'books' %}"
+               class="back-btn">
 
-        <p>
-            Add, update or manage library books.
-        </p>
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+
+            </a>
+
+            <h1 class="page-title">
+                Add New Book 📚
+            </h1>
+
+            <p class="page-subtitle">
+                Add, update or manage library books.
+            </p>
+
+        </div>
+
     </div>
 
-</div>
+    <!-- BOOK FORM -->
 
-<!-- FORM -->
-<div class="form-container">
+    <div class="form-container">
 
-    <form method="POST">
+        <form method="POST">
 
-        {% csrf_token %}
+            {% csrf_token %}
 
-        <div class="input-group">
-            <label>Book Title</label>
-            <input
-                type="text"
-                name="title"
-                placeholder="Enter book title"
-                required
-            >
+            <div class="input-group">
+                <label>Book Title</label>
+
+                <input type="text"
+                       name="title"
+                       placeholder="Enter book title"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label>Author</label>
+
+                <input type="text"
+                       name="author"
+                       placeholder="Enter author name"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label>Category</label>
+
+                <select name="category" required>
+                    <option value="Programming">Programming</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                    <option value="Literature">Literature</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>ISBN</label>
+
+                <input type="text"
+                       name="isbn"
+                       placeholder="Enter ISBN number">
+            </div>
+
+            <div class="input-group">
+                <label>Quantity</label>
+
+                <input type="number"
+                       name="quantity"
+                       min="1"
+                       placeholder="Available copies"
+                       required>
+            </div>
+
+            <div class="input-group">
+                <label>Status</label>
+
+                <select name="available">
+                    <option value="True">Available</option>
+                    <option value="False">Issued</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+
+                <button type="submit"
+                        class="add-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Book
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- BOOKS TABLE -->
+
+    <div class="table-wrapper">
+
+        <div class="table-header">
+
+            <h2>
+                Books List 📖
+            </h2>
+
         </div>
 
-        <div class="input-group">
-            <label>Author</label>
-            <input
-                type="text"
-                name="author"
-                placeholder="Enter author name"
-                required
-            >
-        </div>
+        <table>
 
-        <div class="input-group">
-            <label>Category</label>
+            <thead>
 
-            <select name="category" required>
-                <option value="Programming">Programming</option>
-                <option value="Science">Science</option>
-                <option value="History">History</option>
-                <option value="Literature">Literature</option>
-            </select>
-        </div>
+                <tr>
 
-        <div class="input-group">
-            <label>ISBN</label>
-            <input
-                type="text"
-                name="isbn"
-                placeholder="Enter ISBN number"
-            >
-        </div>
+                    <th>ID</th>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>ISBN</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
 
-        <div class="input-group">
-            <label>Quantity</label>
-            <input
-                type="number"
-                name="quantity"
-                min="1"
-                placeholder="Available copies"
-                required
-            >
-        </div>
+                </tr>
 
-        <div class="input-group">
-            <label>Status</label>
+            </thead>
 
-            <select name="available">
-                <option value="True">Available</option>
-                <option value="False">Borrowed</option>
-            </select>
-        </div>
+            <tbody>
 
-        <div class="button-group">
+                {% for book in books %}
 
-            <button type="submit" class="save-btn">
-                Save Book
-            </button>
+                <tr>
 
-        </div>
+                    <td>{{ book.id }}</td>
 
-    </form>
+                    <td>{{ book.title }}</td>
 
-</div>
+                    <td>{{ book.author }}</td>
 
-<!-- TABLE -->
-<div class="table-wrapper">
+                    <td>{{ book.category }}</td>
 
-    <h2>Library Books 📖</h2>
+                    <td>{{ book.isbn }}</td>
 
-    <table>
+                    <td>{{ book.quantity }}</td>
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Category</th>
-                <th>ISBN</th>
-                <th>Quantity</th>
-                <th>Status</th>
-            </tr>
-        </thead>
+                    <td>
 
-        <tbody>
+                        {% if book.available %}
 
-            {% for book in books %}
-
-            <tr>
-                <td>{{ book.id }}</td>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.category }}</td>
-                <td>{{ book.isbn }}</td>
-                <td>{{ book.quantity }}</td>
-
-                <td>
-                    {% if book.available %}
-                        <span class="available-status">
+                        <span class="active-status">
                             Available
                         </span>
-                    {% else %}
-                        <span class="borrowed-status">
-                            Borrowed
+
+                        {% else %}
+
+                        <span class="inactive-status">
+                            Issued
                         </span>
-                    {% endif %}
-                </td>
-            </tr>
 
-            {% empty %}
+                        {% endif %}
 
-            <tr>
-                <td colspan="7">
-                    No books available.
-                </td>
-            </tr>
+                    </td>
 
-            {% endfor %}
+                </tr>
 
-        </tbody>
+                {% empty %}
 
-    </table>
+                <tr>
 
-</div>
-```
+                    <td colspan="7"
+                        class="empty-row">
+
+                        <i class="fa-solid fa-book-open"></i>
+
+                        <p>No books available.</p>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 

@@ -1,19 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'admin_base.html' %}
 {% load static %}
+
+{% block title %}
+Fines
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/fines.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/fines.css' %}">
-
 <div class="students-page">
 
-    <!-- TOP SECTION -->
+    <!-- HEADER -->
+
     <div class="top-header">
 
-        <div>
+        <div class="header-left">
 
-            <a href="{% url 'dashboard' %}" class="back-btn">
-                ← Back
+            <a href="{% url 'dashboard' %}"
+               class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+
             </a>
 
             <h1 class="page-title">
@@ -26,50 +37,79 @@
 
         </div>
 
-        <a href="{% url 'add_fine' %}" class="add-btn">
-            + Add Fine
+        <a href="{% url 'add_fine' %}"
+           class="add-btn">
+
+            <i class="fa-solid fa-plus"></i>
+            Add Fine
+
         </a>
 
     </div>
 
-    <!-- CARDS -->
+    <!-- STATS CARDS -->
+
     <div class="cards-container">
 
         <div class="card pink-card">
+
+            <i class="fa-solid fa-money-bill-wave"></i>
+
             <h3>Total Fines</h3>
+
             <h1>₹{{ total_fines }}</h1>
+
         </div>
 
         <div class="card green-card">
+
+            <i class="fa-solid fa-circle-check"></i>
+
             <h3>Paid Fines</h3>
+
             <h1>₹{{ paid_fines }}</h1>
+
         </div>
 
         <div class="card blue-card">
+
+            <i class="fa-solid fa-clock"></i>
+
             <h3>Pending Fines</h3>
+
             <h1>₹{{ pending_fines }}</h1>
+
         </div>
 
     </div>
 
-    <!-- TABLE -->
+    <!-- FINES TABLE -->
+
     <div class="table-wrapper">
 
         <div class="table-header">
-            <h2>Fines List 📄</h2>
+
+            <h2>
+                Fines List 💰
+            </h2>
+
         </div>
 
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>ID</th>
                     <th>Student Name</th>
                     <th>Amount</th>
                     <th>Date</th>
                     <th>Status</th>
                     <th>Action</th>
+
                 </tr>
+
             </thead>
 
             <tbody>
@@ -87,21 +127,34 @@
                     <td>{{ fine.date }}</td>
 
                     <td>
+
                         {% if fine.paid %}
-                            <span class="active-status">
-                                Paid
-                            </span>
+
+                        <span class="active-status">
+                            Paid
+                        </span>
+
                         {% else %}
-                            <span class="inactive-status">
-                                Unpaid
-                            </span>
+
+                        <span class="inactive-status">
+                            Unpaid
+                        </span>
+
                         {% endif %}
+
                     </td>
 
                     <td>
-                        <a href="#" class="delete-btn">
+
+                        <a href="{% url 'delete_fine' fine.id %}"
+                           class="delete-btn"
+                           onclick="return confirm('Delete this fine?')">
+
+                            <i class="fa-solid fa-trash"></i>
                             Delete
+
                         </a>
+
                     </td>
 
                 </tr>
@@ -109,9 +162,16 @@
                 {% empty %}
 
                 <tr>
-                    <td colspan="6" style="text-align:center;">
-                        No fines found.
+
+                    <td colspan="6"
+                        class="empty-row">
+
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+
+                        <p>No fines found.</p>
+
                     </td>
+
                 </tr>
 
                 {% endfor %}

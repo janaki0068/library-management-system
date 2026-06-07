@@ -1,6 +1,6 @@
 from django.utils import timezone
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
@@ -19,9 +19,7 @@ def index(request):
 
 
 # LOGIN
-
 def login(request):
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -48,9 +46,7 @@ def login(request):
 
 
 # REGISTER
-
 def register(request):
-
     if request.method == "POST":
         full_name = request.POST.get('full_name')
         email = request.POST.get('email')
@@ -93,11 +89,8 @@ def register(request):
             return render(request, 'register.html')
 
         name_parts = full_name.split(' ', 1)
-
         first_name = name_parts[0]
-
         last_name = name_parts[1] if len(name_parts) > 1 else ''
-
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -127,7 +120,6 @@ def register(request):
 
 
 # LOGOUT
-
 def logout(request):
 
     auth_logout(request)
@@ -136,34 +128,18 @@ def logout(request):
 
 
 def forgot_password(request):
+
     return render(request, 'forgot_password.html')
 
 
 # DASHBOARD
-
 def dashboard(request):
-
     total_books = Book.objects.count()
-
-    active_borrows = Transaction.objects.filter(
-        is_returned=False
-    ).count()
-
-    active_students = Student.objects.filter(
-        active=True
-    ).count()
-
-    overdue_fines = Fine.objects.filter(
-        paid=False
-    ).count()
-
-    overdue_books = Transaction.objects.filter(
-        is_returned=False
-    )[:5]
-
-    recent_activity = Transaction.objects.order_by(
-        '-borrowed_date'
-    )[:5]
+    active_borrows = Transaction.objects.filter(is_returned=False).count()
+    active_students = Student.objects.filter(active=True).count()
+    overdue_fines = Fine.objects.filter(paid=False).count()
+    overdue_books = Transaction.objects.filter(is_returned=False)[:5]
+    recent_activity = Transaction.objects.order_by('-borrowed_date')[:5]
 
     context = {
         'total_books': total_books,
@@ -236,9 +212,7 @@ def profile_picture(request):
 def browse_books(request):
 
     query = request.GET.get('q', '')
-
     category = request.GET.get('category', '')
-
     books = Book.objects.all()
 
     if query:
@@ -334,20 +308,17 @@ def user_fines(request):
     return render(request, 'userfines.html', context)
 
 # STUDENTS
-
-
 def students(request):
-
     total_students = Student.objects.count()
-
-    active_students = Student.objects.filter(
-        active=True
-    ).count()
+    active_students = Student.objects.filter(active=True).count()
+    inactive_students = Student.objects.filter(active=False).count()
 
     context = {
+        'active_page': 'students',
         'students': Student.objects.all(),
         'total_students': total_students,
         'active_students': active_students,
+        'inactive_students': inactive_students,
     }
 
     return render(
@@ -358,7 +329,6 @@ def students(request):
 
 
 # ADD STUDENT
-
 def add_student(request):
 
     if request.method == "POST":
@@ -383,22 +353,22 @@ def add_student(request):
         context
     )
 
+def delete_student(request, student_id):
+    student = get_object_or_404(Student, id=student_id)
+    student.delete()
+
+    messages.success(request, "Student deleted successfully.")
+    return redirect('students')
+
 
 # BOOKS
-
 def books(request):
-
     total_books = Book.objects.count()
-
-    available_books = Book.objects.filter(
-        available=True
-    ).count()
-
-    issued_books = Transaction.objects.filter(
-        is_returned=False
-    ).count()
+    available_books = Book.objects.filter(available=True).count()
+    issued_books = Transaction.objects.filter(is_returned=False).count()
 
     context = {
+        'active_page':'books',
         'books': Book.objects.all(),
         'total_books': total_books,
         'available_books': available_books,
@@ -413,7 +383,6 @@ def books(request):
 
 
 # ADD BOOK
-
 def add_book(request):
 
     if request.method == "POST":
@@ -439,9 +408,13 @@ def add_book(request):
         context
     )
 
+def delete_book(request, id):
+    book = Book.objects.get(id=id)
+    book.delete()
+    return redirect('books')
+
 
 # TRANSACTIONS
-
 def transactions(request):
 
     transactions = Transaction.objects.all()
@@ -471,7 +444,6 @@ def transactions(request):
 
 
 # ISSUE BOOK
-
 def issue_book(request):
 
     if request.method == "POST":
@@ -507,9 +479,13 @@ def issue_book(request):
         context
     )
 
+def delete_transaction(request, id):
+    transaction = Transaction.objects.get(id=id)
+    transaction.delete()
+    return redirect('transactions')
+
 
 # FINES
-
 def fines(request):
 
     fines = Fine.objects.all()
@@ -545,23 +521,26 @@ def fines(request):
 
 
 # ADD FINE
-
 def add_fine(request):
 
     if request.method == "POST":
 
-        Fine.objects.create(
-            student_id=request.POST['student'],
-            amount=request.POST['amount'],
-            date=request.POST['date'],
-            paid=request.POST['paid'] == "True"
+        student = Student.objects.get(
+            id=request.POST.get('student')
         )
 
-        return redirect('add_fine')
+        Fine.objects.create(
+            student=student,
+            amount=request.POST.get('amount'),
+            date=request.POST.get('date'),
+            paid=request.POST.get('paid') == 'True'
+        )
+
+        return redirect('fines')
 
     context = {
         'students': Student.objects.all(),
-        'fines': Fine.objects.all(),
+        'fines': Fine.objects.all()
     }
 
     return render(
@@ -569,3 +548,8 @@ def add_fine(request):
         'add_fine.html',
         context
     )
+
+def delete_fine(request, id):
+    fine = Fine.objects.get(id=id)
+    fine.delete()
+    return redirect('fines')

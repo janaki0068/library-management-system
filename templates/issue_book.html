@@ -1,27 +1,37 @@
-{% extends 'base.html' %}
+{% extends 'admin_base.html' %}
 {% load static %}
+
+{% block title %}
+Issue Book
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/issue_book.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'css/issue_book.css' %}">
-
-<div class="issue-page">
+<div class="students-page">
 
     <!-- HEADER -->
 
-    <div class="top-section">
+    <div class="top-header">
 
-        <div>
+        <div class="header-left">
 
-            <br>
+            <a href="{% url 'transactions' %}"
+               class="back-btn">
 
-            <a href="{% url 'transactions' %}" class="back-btn">
-                ← Back
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+
             </a>
 
-            <h1>Issue Book 📚</h1>
+            <h1 class="page-title">
+                Issue Book 📚
+            </h1>
 
-            <p>
+            <p class="page-subtitle">
                 Assign books to students and manage borrowing records.
             </p>
 
@@ -77,11 +87,9 @@
 
                 <label>Issue Date</label>
 
-                <input
-                    type="date"
-                    name="borrowed_date"
-                    required
-                >
+                <input type="date"
+                       name="borrowed_date"
+                       required>
 
             </div>
 
@@ -89,11 +97,9 @@
 
                 <label>Return Date</label>
 
-                <input
-                    type="date"
-                    name="return_date"
-                    required
-                >
+                <input type="date"
+                       name="return_date"
+                       required>
 
             </div>
 
@@ -117,8 +123,12 @@
 
             <div class="button-group">
 
-                <button type="submit" class="save-btn">
+                <button type="submit"
+                        class="add-btn">
+
+                    <i class="fa-solid fa-floppy-disk"></i>
                     Issue Book
+
                 </button>
 
             </div>
@@ -127,23 +137,31 @@
 
     </div>
 
-    <!-- TABLE -->
+    <!-- TRANSACTIONS TABLE -->
 
     <div class="table-wrapper">
 
-        <h2>Issued Books 📖</h2>
+        <div class="table-header">
+
+            <h2>
+                Issued Books 📖
+            </h2>
+
+        </div>
 
         <table>
 
             <thead>
 
                 <tr>
+
                     <th>ID</th>
                     <th>Student</th>
                     <th>Book</th>
                     <th>Issue Date</th>
                     <th>Return Date</th>
                     <th>Status</th>
+
                 </tr>
 
             </thead>
@@ -162,21 +180,21 @@
 
                     <td>{{ transaction.borrowed_date }}</td>
 
-                    <td>{{ transaction.return_date }}</td>
+                    <td>{{ transaction.return_date|default:"-" }}</td>
 
                     <td>
 
                         {% if transaction.is_returned %}
 
-                            <span class="returned-status">
-                                Returned
-                            </span>
+                        <span class="active-status">
+                            Returned
+                        </span>
 
                         {% else %}
 
-                            <span class="issued-status">
-                                Issued
-                            </span>
+                        <span class="inactive-status">
+                            Issued
+                        </span>
 
                         {% endif %}
 
@@ -188,8 +206,13 @@
 
                 <tr>
 
-                    <td colspan="6" style="text-align:center;">
-                        No transactions found.
+                    <td colspan="6"
+                        class="empty-row">
+
+                        <i class="fa-solid fa-book-open"></i>
+
+                        <p>No transactions found.</p>
+
                     </td>
 
                 </tr>

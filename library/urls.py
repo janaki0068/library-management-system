@@ -21,14 +21,18 @@ urlpatterns = [
 
     path('students/', views.students, name='students'),
     path('add-student/', views.add_student, name='add_student'),
+    path('delete-student/<int:student_id>/',views.delete_student,name='delete_student'),
 
     path('books/', views.books, name='books'),
     path('add-book/', views.add_book, name='add_book'),
+    path('books/delete/<int:id>/', views.delete_book, name='delete_book'),
 
     path('transactions/', views.transactions, name='transactions'),
     path('issue-book/', views.issue_book, name='issue_book'),
+    path('transactions/delete/<int:id>/',views.delete_transaction,name='delete_transaction'),
 
     path('fines/', views.fines, name='fines'),
     path('add-fine/', views.add_fine, name='add_fine'),
+    path('delete-fine/<int:id>/',views.delete_fine,name='delete_fine'),
 
 ]

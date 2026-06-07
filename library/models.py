@@ -76,11 +76,6 @@ class Fine(models.Model):
         on_delete=models.CASCADE
     )
 
-    transaction = models.ForeignKey(
-        Transaction,
-        on_delete=models.CASCADE
-    )
-
     amount = models.DecimalField(
         max_digits=6,
         decimal_places=2

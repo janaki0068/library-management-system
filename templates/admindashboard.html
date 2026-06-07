@@ -1,17 +1,19 @@
+
 {% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Library Dashboard</title>
+    <title>Admin Dashboard</title>
 
-    <!-- Google Font -->
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
 
@@ -22,13 +24,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- CSS -->
     <link rel="stylesheet"
           href="{% static 'css/admindashboard.css' %}">
+
 </head>
 
 <body>
@@ -39,13 +40,9 @@
 
     <nav class="navbar">
 
-        <!-- LOGO -->
-
         <div class="nav-logo">
             <h1>LMS</h1>
         </div>
-
-        <!-- NAVIGATION -->
 
         <ul class="nav-links">
 
@@ -81,8 +78,6 @@
 
         </ul>
 
-        <!-- RIGHT SIDE -->
-
         <div class="nav-right">
 
             <div class="notification">
@@ -93,163 +88,293 @@
 
             </div>
 
-            <div class="profile">
+            <a href="{% url 'logout' %}" class="logout-btn">
 
-                <div class="profile-img">
-                    <i class="fa-regular fa-user"></i>
-                </div>
+                <i class="fa-solid fa-right-from-bracket"></i>
 
-                <span>Admin</span>
+                Logout
 
-                <i class="fa-solid fa-chevron-down"></i>
-
-            </div>
+            </a>
 
         </div>
 
     </nav>
 
-    <!-- WELCOME SECTION -->
+    <!-- WELCOME -->
 
-    <section class="welcome">
+    <section class="welcome-banner">
 
-        <h1>
-            Welcome Back, Admin!
-        </h1>
+        <div>
 
-        <p>
-            Manage your library smoothly and efficiently.
-        </p>
+            <h1>
+                Welcome Back, {{ request.user.username }}
+            </h1>
 
-    </section>
-
-    <!-- STATISTICS CARDS -->
-
-    <section class="cards">
-
-        <div class="card">
-
-            <h3>Total Books</h3>
-
-            <h2>{{ total_books }}</h2>
+            <p>
+                Manage your library system efficiently and keep everything organized.
+            </p>
 
         </div>
 
-        <div class="card">
+        <div class="banner-icon">
 
-            <h3>Active Borrows</h3>
-
-            <h2>{{ active_borrows }}</h2>
-
-        </div>
-
-        <div class="card active-card">
-
-            <h3>Active Students</h3>
-
-            <h2>{{ active_students }}</h2>
-
-        </div>
-
-        <div class="card">
-
-            <h3>Overdue Fines</h3>
-
-            <h2>{{ overdue_fines }}</h2>
+            <i class="fa-solid fa-book-open-reader"></i>
 
         </div>
 
     </section>
 
-    <!-- CONTENT SECTION -->
+    <!-- MAIN DASHBOARD -->
 
-    <section class="content">
+    <section class="dashboard-grid">
 
-        <!-- OVERDUE BOOKS -->
+        <!-- ADMIN PROFILE -->
 
-        <div class="box">
+        <div class="admin-profile">
 
-            <div class="box-header">
+            <div class="profile-avatar">
 
-                <h2>Overdue Books</h2>
-
-                <button>
-                    View All
-                </button>
+                <i class="fa-solid fa-user-shield"></i>
 
             </div>
 
-            {% for borrow in overdue_books %}
+            <h2>
 
-            <div class="item">
+                {{ request.user.username }}
 
-                <div>
+            </h2>
 
-                    <h4>
-                        {{ borrow.book.title }}
-                    </h4>
+            <p class="role">
 
-                    <p>
-                        {{ borrow.student.name }}
-                    </p>
+                Administrator
+
+            </p>
+
+            <hr>
+
+            <div class="profile-info">
+
+                <div class="info-item">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    <div>
+
+                        <strong>Email</strong>
+
+                        <span>
+
+                            {{ request.user.email }}
+
+                        </span>
+
+                    </div>
 
                 </div>
 
-                <span class="danger">
-                    Overdue
-                </span>
+                <div class="info-item">
+
+                    <i class="fa-solid fa-user-gear"></i>
+
+                    <div>
+
+                        <strong>Role</strong>
+
+                        <span>
+
+                            System Administrator
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="info-item">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    <div>
+
+                        <strong>Joined</strong>
+
+                        <span>
+
+                            {{ request.user.date_joined|date:"F d, Y" }}
+
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            {% empty %}
+            <a href="{% url 'logout' %}" class="profile-logout">
 
-            <p>No overdue books.</p>
+                <i class="fa-solid fa-right-from-bracket"></i>
 
-            {% endfor %}
+                Logout
+
+            </a>
 
         </div>
 
-        <!-- RECENT ACTIVITY -->
+        <!-- RIGHT SIDE -->
 
-        <div class="box">
+        <div class="right-content">
 
-            <div class="box-header">
+            <!-- STAT CARDS -->
 
-                <h2>Recent Activity</h2>
+            <div class="cards">
 
-                <button>
-                    View All
-                </button>
+                <div class="card">
 
-            </div>
+                    <i class="fa-solid fa-book"></i>
 
-            {% for borrow in recent_borrows %}
+                    <h3>Total Books</h3>
 
-            <div class="item">
-
-                <div>
-
-                    <h4>
-                        {{ borrow.book.title }}
-                    </h4>
-
-                    <p>
-                        {{ borrow.student.name }}
-                    </p>
+                    <h2>{{ total_books }}</h2>
 
                 </div>
 
-                <span class="date">
-                    {{ borrow.borrowed_date }}
-                </span>
+                <div class="card">
+
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                    <h3>Active Borrows</h3>
+
+                    <h2>{{ active_borrows }}</h2>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    <h3>Active Students</h3>
+
+                    <h2>{{ active_students }}</h2>
+
+                </div>
+
+                <div class="card">
+
+                    <i class="fa-solid fa-money-bill-wave"></i>
+
+                    <h3>Overdue Fines</h3>
+
+                    <h2>{{ overdue_fines }}</h2>
+
+                </div>
 
             </div>
 
-            {% empty %}
+            <!-- CONTENT -->
 
-            <p>No recent activity.</p>
+            <div class="content-grid">
 
-            {% endfor %}
+                <!-- OVERDUE BOOKS -->
+
+                <div class="box">
+
+                    <div class="box-header">
+
+                        <h2>Overdue Books</h2>
+
+                    </div>
+
+                    {% for borrow in overdue_books %}
+
+                    <div class="item">
+
+                        <div>
+
+                            <h4>
+
+                                {{ borrow.book.title }}
+
+                            </h4>
+
+                            <p>
+
+                                {{ borrow.student.name }}
+
+                            </p>
+
+                        </div>
+
+                        <span class="danger">
+
+                            Overdue
+
+                        </span>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p>
+
+                        No overdue books found.
+
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="box">
+
+                    <div class="box-header">
+
+                        <h2>Recent Activity</h2>
+
+                    </div>
+
+                    {% for borrow in recent_activity %}
+
+                    <div class="item">
+
+                        <div>
+
+                            <h4>
+
+                                {{ borrow.book.title }}
+
+                            </h4>
+
+                            <p>
+
+                                {{ borrow.student.name }}
+
+                            </p>
+
+                        </div>
+
+                        <span class="date">
+
+                            {{ borrow.borrowed_date }}
+
+                        </span>
+
+                    </div>
+
+                    {% empty %}
+
+                    <p>
+
+                        No recent activity found.
+
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -259,3 +384,4 @@
 
 </body>
 </html>
+
