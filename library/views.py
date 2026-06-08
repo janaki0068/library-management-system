@@ -203,33 +203,33 @@ def profile_picture(request):
 
         student = Student.objects.get(user=request.user)
 
-    if request.FILES.get('profile_picture'):
+        if request.FILES.get('profile_picture'):
 
-        student.profile_picture = request.FILES['profile_picture']
+            student.profile_picture = request.FILES['profile_picture']
 
-    student.save()
+            student.save()
 
     return redirect('user_dashboard')
 
 
 @login_required
 def browse_books(request):
+    print("BROWSE_BOOKS VIEW LOADED")
+
 
     query = request.GET.get('q', '')
     category = request.GET.get('category', '')
     books = Book.objects.all()
 
     if query:
-
-        books = books.filter(title__icontains=query) | books.filter(
-
-            author__icontains=query)
+        books = books.filter(title__icontains=query) | \
+                books.filter(author__icontains=query) | \
+                books.filter(isbn__icontains=query)
 
     if category:
-        books = books.filter(category__icontains=category)
+        books = books.filter(category__id=category)
 
-    categories = Book.objects.exclude(category='').values_list(
-            'category', flat=True).distinct()
+    categories = Category.objects.all()
 
     context = {
 
@@ -390,11 +390,13 @@ def books(request):
 def add_book(request):
 
     if request.method == "POST":
+        category_id = request.POST['category']
+        category = Category.objects.get(id=category_id) if category_id else None
 
         Book.objects.create(
             title=request.POST['title'],
             author=request.POST['author'],
-            category=request.POST['category'],
+            category=category,
             isbn=request.POST['isbn'],
             quantity=request.POST['quantity'],
             available=request.POST['available'] == "True"
@@ -403,7 +405,8 @@ def add_book(request):
         return redirect('add_book')
 
     context = {
-        'books': Book.objects.all()
+        'books': Book.objects.all(),
+        'categories': Category.objects.all()
     }
 
     return render(
@@ -567,7 +570,8 @@ def update_book(request, id):
 
         book.title = request.POST['title']
         book.author = request.POST['author']
-        book.category = request.POST['category']
+        category_id = request.POST['category']
+        book.category = Category.objects.get(id=category_id)
         book.isbn = request.POST['isbn']
         book.quantity = request.POST['quantity']
         book.available = request.POST['available'] == "True"
@@ -633,13 +637,11 @@ def add_category(request):
             Category.objects.create(name=name)
             messages.success(request, "Category added successfully.")
 
-        context = {
+        return redirect('categories')
+    context = {
             'categories': Category.objects.all()
         }
-
-        return redirect('categories')
-    return render(request,'categories.html', context
-    )       
+    return render(request,'categories.html', context)       
 
 def delete_category(request, id):
     category = Category.objects.get(id=id)

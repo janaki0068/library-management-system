@@ -262,6 +262,8 @@ tbody tr:hover{
 }
 
 
+/* ADD CATEGORY */
+
 .edit-btn {
     background-color: var(--btn-color-2);
     color: var(--btn-text-color);
@@ -309,4 +311,10 @@ tbody tr:hover{
 .students-page .add-btn {
     border: none;
     margin: 10px;
+}
+
+
+.btn-right {
+    display: flex;
+    gap: 10px;
 }
