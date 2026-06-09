@@ -34,11 +34,12 @@
 <p>Search and Borrow Books from our library</p>
 
 <div class="search-section">
-  <form action="/search/" method="get" class="search-form">
+  <form method="GET" action="{% url 'browse_books' %}" method="get" class="search-form">
     <input
       type="search"
       id="site-search"
       name="q"
+      value="{{query}}"
       placeholder="Search by title, author or ISBN"
     />
     <button type="submit" class="search-button">
@@ -47,17 +48,19 @@
   </form>
 
   <div class="category-dropdown">
-    <select name="category" id="category-select" onchange="this.form.submit()">
+    <form method="GET" action="{% url 'browse_books' %}">
+      <select name="category" id="category-select" onchange="this.form.submit()">
       <option value="">All Categories</option>
       {% for cat in categories %}
-        <option value="{{ cat }}" 
-        {% if selected_category == cat %}
+        <option value="{{ cat.id }}" 
+        {% if cat.id|stringformat:"s" == selected_category  %}
         selected
         {% endif %}>
-        {{ cat }}
+        {{ cat.name }}
       </option>
       {% endfor %}
     </select>
+    </form>
   </div>
 </div>
 

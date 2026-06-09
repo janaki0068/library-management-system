@@ -34,7 +34,7 @@
 <div class="user-profile">
     <div class="user-left-panel">
         <div class="profile-box">
-            <form action="POST" action="{% url 'profile_picture' %}" enctype="multipart/form-data">
+            <form method="POST" action="{% url 'profile_picture' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% if student.profile_picture %}
                 <img src="{{student.profile_picture.url}}" alt="User Profile Image">
