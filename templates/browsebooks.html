@@ -68,7 +68,11 @@
   {% for book in books %}
   <div class="book-card">
     <div class="book-cover">
-      <img src="{% static 'images/image1.png' %}" alt="Book Cover" />
+      {% if book.cover_image %}
+      <img src="{{ book.cover_image.url }}" alt="{{book.title}}" />
+      {% else %}
+      <img src="{% static 'images/book.jpg' %}" alt="Book Cover" />
+      {% endif %}
     </div>
     <div class="book-details">
       {% if book.available %}

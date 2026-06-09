@@ -393,7 +393,7 @@ def add_book(request):
         category_id = request.POST['category']
         category = Category.objects.get(id=category_id) if category_id else None
 
-        Book.objects.create(
+        book = Book.objects.create(
             title=request.POST['title'],
             author=request.POST['author'],
             category=category,
@@ -401,6 +401,9 @@ def add_book(request):
             quantity=request.POST['quantity'],
             available=request.POST['available'] == "True"
         )
+        if request.FILES.get('cover_image'):
+            book.cover_image = request.FILES['cover_image']
+            book.save()
 
         return redirect('add_book')
 
@@ -575,12 +578,17 @@ def update_book(request, id):
         book.isbn = request.POST['isbn']
         book.quantity = request.POST['quantity']
         book.available = request.POST['available'] == "True"
+
+        if request.FILES.get('cover_image'):
+            book.cover_image = request.FILES['cover_image']
+
         book.save()
         messages.success(request, "Book updated successfully.")
         return redirect('books')
 
     context = {
-        'book': book
+        'book': book,
+        'categories': Category.objects.all()
     }
 
     return render(

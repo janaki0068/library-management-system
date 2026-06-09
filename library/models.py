@@ -43,6 +43,7 @@ class Book(models.Model):
     )
     quantity = models.IntegerField(default=1)
     available = models.BooleanField(default=True)
+    cover_image = models.ImageField(upload_to='book_covers/', null=True, blank=True)
 
     def __str__(self):
         return self.title
