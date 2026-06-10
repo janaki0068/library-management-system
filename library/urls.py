@@ -41,4 +41,12 @@ urlpatterns = [
     path('add-category/', views.add_category, name='add_category'),
     path('delete-category/<int:id>/',views.delete_category,name='delete_category'),
 
+    path('request-borrow/<int:book_id>/',views.request_borrow,name='request_borrow'),
+
+    path('borrow-requests/',views.borrow_requests,name='borrow_requests'),
+    path('approve-request/<int:request_id>/',views.approve_request,name='approve_request'),
+    path('reject-request/<int:request_id>/',views.reject_request,name='reject_request'),
+    path('return-book/<int:issue_id>/',views.return_book,name='return_book'),
+
+    path('user-fines/',views.user_fines,name='user_fines'),
 ]

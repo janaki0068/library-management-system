@@ -1,0 +1,159 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block title %}
+Borrow Requests
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/borrow_requests.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="students-page">
+
+    <!-- HEADER -->
+
+    <div class="top-header">
+
+        <div class="header-left">
+
+            <a href="{% url 'dashboard' %}"
+               class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+                Back
+
+            </a>
+
+            <h1 class="page-title">
+                Borrow Requests 📚
+            </h1>
+
+            <p class="page-subtitle">
+                Review and manage student borrowing requests.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- REQUESTS TABLE -->
+
+    <div class="table-wrapper">
+
+        <div class="table-header">
+
+            <h2>
+                Pending Requests 📋
+            </h2>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Student</th>
+                    <th>Book Title</th>
+                    <th>Request Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for req in requests %}
+
+                <tr>
+
+                    <td>{{ req.student.username }}</td>
+
+                    <td>{{ req.book.title }}</td>
+
+                    <td>{{ req.request_date }}</td>
+
+                    <td>
+
+                        {% if req.status == 'Pending' %}
+
+                        <span class="pending-status">
+                            {{ req.status }}
+                        </span>
+
+                        {% elif req.status == 'Approved' %}
+
+                        <span class="approved-status">
+                            {{ req.status }}
+                        </span>
+
+                        {% else %}
+
+                        <span class="rejected-status">
+                            {{ req.status }}
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <a href="{% url 'approve_request' req.id %}"
+                               class="accept-btn">
+
+                                <i class="fa-solid fa-check"></i>
+                                Accept
+
+                            </a>
+
+                            <a href="{% url 'reject_request' req.id %}"
+                               class="reject-btn">
+
+                                <i class="fa-solid fa-xmark"></i>
+                                Reject
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5"
+                        class="empty-row">
+
+                        <i class="fa-solid fa-book-open"></i>
+
+                        <p>
+                            No borrow requests available.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

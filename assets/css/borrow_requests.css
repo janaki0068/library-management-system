@@ -1,0 +1,246 @@
+/* ==========================
+   BORROW REQUESTS PAGE
+========================== */
+
+.students-page{
+    padding:25px;
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+.top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.header-left{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    background:var(--btn-color-2);
+    color:var(--text-color);
+    padding:10px 16px;
+    border-radius:8px;
+    transition:.3s;
+    margin-bottom:12px;
+}
+
+.back-btn:hover{
+    background:var(--btn-color-3);
+    color:white;
+}
+
+.page-title{
+    font-size:32px;
+    margin-bottom:5px;
+    color:var(--text-color);
+}
+
+.page-subtitle{
+    color:var(--btn-text-color);
+    font-size:14px;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.table-wrapper{
+    background:var(--background-color-table);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.table-header{
+    padding:20px 25px;
+    border-bottom:1px solid var(--primary-color);
+}
+
+.table-header h2{
+    color:var(--text-color);
+    font-size:22px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:var(--secondary-color);
+}
+
+thead th{
+    padding:16px;
+    text-align:left;
+    font-size:14px;
+    color:var(--text-color);
+    font-weight:600;
+}
+
+tbody td{
+    padding:16px;
+    border-bottom:1px solid var(--primary-color);
+    font-size:14px;
+    color:var(--text-color);
+}
+
+tbody tr:hover{
+    background:#faf8f5;
+}
+
+/* ==========================
+   STATUS
+========================== */
+
+.pending-status{
+    background:#fff3cd;
+    color:#856404;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.approved-status{
+    background:#dfead8;
+    color:#47663b;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+.rejected-status{
+    background:#f4d6d6;
+    color:#8a3c3c;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* ==========================
+   ACTION BUTTONS
+========================== */
+
+.action-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.accept-btn{
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    background:var(--btn-color-1);
+    color:var(--btn-text-color);
+    padding:10px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:500;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:.3s;
+}
+
+.accept-btn:hover{
+    background:var(--btn-color-3);
+    color:white;
+}
+
+.reject-btn{
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    background:#dc3545;
+    color:white;
+    padding:10px 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:500;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:.3s;
+}
+
+.reject-btn:hover{
+    opacity:.9;
+}
+
+/* ==========================
+   EMPTY ROW
+========================== */
+
+.empty-row{
+    text-align:center;
+    padding:40px !important;
+}
+
+.empty-row i{
+    font-size:40px;
+    margin-bottom:12px;
+    color:var(--btn-color-3);
+}
+
+.empty-row p{
+    margin-top:10px;
+    color:var(--btn-text-color);
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+    .top-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .table-wrapper{
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:800px;
+    }
+}
+
+@media(max-width:768px){
+
+    .students-page{
+        padding:15px;
+    }
+
+    .page-title{
+        font-size:26px;
+    }
+
+    .action-buttons{
+        flex-direction:column;
+    }
+
+    .accept-btn,
+    .reject-btn{
+        width:100%;
+        justify-content:center;
+    }
+}

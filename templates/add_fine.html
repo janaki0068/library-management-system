@@ -6,7 +6,6 @@ Add Fine
 {% endblock %}
 
 {% block extra_css %}
-
 <link rel="stylesheet" href="{% static 'css/add_fine.css' %}">
 {% endblock %}
 
@@ -14,19 +13,14 @@ Add Fine
 
 <div class="students-page">
 
-
 <!-- HEADER -->
-
 <div class="top-header">
 
     <div class="header-left">
 
-        <a href="{% url 'fines' %}"
-           class="back-btn">
-
+        <a href="{% url 'fines' %}" class="back-btn">
             <i class="fa-solid fa-arrow-left"></i>
             Back
-
         </a>
 
         <h1 class="page-title">
@@ -42,13 +36,12 @@ Add Fine
 </div>
 
 <!-- FORM -->
-
 <div class="form-container">
 
     <form method="POST">
-
         {% csrf_token %}
 
+        <!-- STUDENT -->
         <div class="input-group">
 
             <label>Student</label>
@@ -56,17 +49,33 @@ Add Fine
             <select name="student" required>
 
                 {% for student in students %}
-
                 <option value="{{ student.id }}">
                     {{ student.name }}
                 </option>
-
                 {% endfor %}
 
             </select>
 
         </div>
 
+        <!-- 🔥 ADDED ISSUE BOOK (IMPORTANT FIX) -->
+        <div class="input-group">
+
+            <label>Issued Book</label>
+
+            <select name="issue_book" required>
+
+                {% for issue in issue_books %}
+                    <option value="{{ issue.id }}">
+                        {{ issue.book.title }} ({{ issue.student.name }})
+                    </option>
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <!-- AMOUNT -->
         <div class="input-group">
 
             <label>Amount (₹)</label>
@@ -78,6 +87,7 @@ Add Fine
 
         </div>
 
+        <!-- DATE -->
         <div class="input-group">
 
             <label>Date</label>
@@ -88,32 +98,26 @@ Add Fine
 
         </div>
 
+        <!-- STATUS -->
         <div class="input-group">
 
             <label>Status</label>
 
             <select name="paid">
 
-                <option value="True">
-                    Paid
-                </option>
-
-                <option value="False">
-                    Unpaid
-                </option>
+                <option value="True">Paid</option>
+                <option value="False">Unpaid</option>
 
             </select>
 
         </div>
 
+        <!-- BUTTON -->
         <div class="button-group">
 
-            <button type="submit"
-                    class="add-btn">
-
+            <button type="submit" class="add-btn">
                 <i class="fa-solid fa-floppy-disk"></i>
                 Save Fine
-
             </button>
 
         </div>
@@ -122,32 +126,23 @@ Add Fine
 
 </div>
 
-<!-- FINES TABLE -->
-
+<!-- TABLE (unchanged) -->
 <div class="table-wrapper">
 
     <div class="table-header">
-
-        <h2>
-            Fine Records 💸
-        </h2>
-
+        <h2>Fine Records 💸</h2>
     </div>
 
     <table>
 
         <thead>
-
             <tr>
-
                 <th>ID</th>
                 <th>Student</th>
                 <th>Amount</th>
                 <th>Date</th>
                 <th>Status</th>
-
             </tr>
-
         </thead>
 
         <tbody>
@@ -155,48 +150,27 @@ Add Fine
             {% for fine in fines %}
 
             <tr>
-
                 <td>{{ fine.id }}</td>
-
                 <td>{{ fine.student.name }}</td>
-
                 <td>₹{{ fine.amount }}</td>
-
                 <td>{{ fine.date }}</td>
-
                 <td>
 
                     {% if fine.paid %}
-
-                    <span class="active-status">
-                        Paid
-                    </span>
-
+                        <span class="active-status">Paid</span>
                     {% else %}
-
-                    <span class="inactive-status">
-                        Unpaid
-                    </span>
-
+                        <span class="inactive-status">Unpaid</span>
                     {% endif %}
 
                 </td>
-
             </tr>
 
             {% empty %}
-
             <tr>
-
-                <td colspan="5"
-                    class="empty-row">
-
+                <td colspan="5" class="empty-row">
                     <i class="fa-solid fa-file-invoice-dollar"></i>
-
                     <p>No fine records found.</p>
-
                 </td>
-
             </tr>
 
             {% endfor %}
@@ -206,7 +180,6 @@ Add Fine
     </table>
 
 </div>
-
 
 </div>
 

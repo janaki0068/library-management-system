@@ -66,14 +66,25 @@ class TransactionAdmin(admin.ModelAdmin):
 
 @admin.register(Fine)
 class FineAdmin(admin.ModelAdmin):
+
     list_display = (
         'id',
-        'student',
+        'get_student',
+        'get_book',
         'amount',
-        'date',
         'paid'
     )
 
     list_filter = (
         'paid',
     )
+
+    def get_student(self, obj):
+        return obj.issue.student.username
+
+    get_student.short_description = 'Student'
+
+    def get_book(self, obj):
+        return obj.issue.book.title
+
+    get_book.short_description = 'Book'
