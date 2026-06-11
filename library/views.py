@@ -107,7 +107,7 @@ def register(request):
 
         Student.objects.create(
             user=user,
-            name= full_name,
+            name=full_name,
             email=email,
             student_id=student_id,
             phone=phone,
@@ -216,15 +216,14 @@ def profile_picture(request):
 def browse_books(request):
     print("BROWSE_BOOKS VIEW LOADED")
 
-
     query = request.GET.get('q', '')
     category = request.GET.get('category', '')
     books = Book.objects.all()
 
     if query:
         books = books.filter(title__icontains=query) | \
-                books.filter(author__icontains=query) | \
-                books.filter(isbn__icontains=query)
+            books.filter(author__icontains=query) | \
+            books.filter(isbn__icontains=query)
 
     if category:
         books = books.filter(category__id=category)
@@ -311,7 +310,41 @@ def user_fines(request):
     }
     return render(request, 'userfines.html', context)
 
+
+@login_required
+def request_borrow(request, book_id):
+
+    book = get_object_or_404(Book, id=book_id)
+
+    already_requested = BorrowRequest.objects.filter(
+        student=request.user,
+        book=book,
+        status='Pending'
+    ).exists()
+
+    if already_requested:
+        messages.error(
+            request,
+            "You already requested this book."
+        )
+        return redirect('browse_books')
+
+    BorrowRequest.objects.create(
+        student=request.user,
+        book=book
+    )
+
+    messages.success(
+        request,
+        "Borrow request sent successfully."
+    )
+
+    return redirect('browse_books')
+
+
 # STUDENTS
+
+
 def students(request):
     total_students = Student.objects.count()
     active_students = Student.objects.filter(active=True).count()
@@ -357,6 +390,7 @@ def add_student(request):
         context
     )
 
+
 def delete_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     student.delete()
@@ -372,7 +406,7 @@ def books(request):
     issued_books = Transaction.objects.filter(is_returned=False).count()
 
     context = {
-        'active_page':'books',
+        'active_page': 'books',
         'books': Book.objects.all(),
         'total_books': total_books,
         'available_books': available_books,
@@ -391,7 +425,8 @@ def add_book(request):
 
     if request.method == "POST":
         category_id = request.POST['category']
-        category = Category.objects.get(id=category_id) if category_id else None
+        category = Category.objects.get(
+            id=category_id) if category_id else None
 
         book = Book.objects.create(
             title=request.POST['title'],
@@ -417,6 +452,7 @@ def add_book(request):
         'add_book.html',
         context
     )
+
 
 def delete_book(request, id):
     book = Book.objects.get(id=id)
@@ -489,6 +525,7 @@ def issue_book(request):
         context
     )
 
+
 def delete_transaction(request, id):
     transaction = Transaction.objects.get(id=id)
     transaction.delete()
@@ -558,6 +595,7 @@ def add_fine(request):
         'add_fine.html',
         context
     )
+
 
 def delete_fine(request, id):
     fine = Fine.objects.get(id=id)
@@ -637,6 +675,7 @@ def categories(request):
         context
     )
 
+
 def add_category(request):
 
     if request.method == "POST":
@@ -647,12 +686,177 @@ def add_category(request):
 
         return redirect('categories')
     context = {
-            'categories': Category.objects.all()
-        }
-    return render(request,'categories.html', context)       
+        'categories': Category.objects.all()
+    }
+    return render(request, 'categories.html', context)
+
 
 def delete_category(request, id):
     category = Category.objects.get(id=id)
     category.delete()
     messages.success(request, "Category deleted successfully.")
     return redirect('categories')
+
+
+@login_required
+def borrow_requests(request):
+
+    requests = BorrowRequest.objects.filter(
+        status='Pending'
+    ).order_by('-request_date')
+
+    return render(
+        request,
+        'borrow_requests.html',
+        {
+            'requests': requests
+        }
+    )
+
+# APPROVE REQUEST
+
+
+@login_required
+def approve_request(request, request_id):
+
+    borrow_request = get_object_or_404(
+        BorrowRequest,
+        id=request_id
+    )
+
+    book = borrow_request.book
+
+    # Check if book is available
+    if book.quantity <= 0:
+
+        book.available = False
+        book.save()
+
+        messages.error(
+            request,
+            "Book is not available."
+        )
+
+        return redirect('borrow_requests')
+
+    # Create issue record
+    due_date = timezone.now().date() + timedelta(days=14)
+
+    IssueBook.objects.create(
+        student=borrow_request.student,
+        book=book,
+        issue_date=timezone.now().date(),
+        due_date=due_date
+    )
+
+    # Reduce quantity
+    book.quantity -= 1
+
+    # Update availability
+    if book.quantity <= 0:
+        book.available = False
+
+    book.save()
+
+    # Approve request
+    borrow_request.status = 'Approved'
+    borrow_request.save()
+
+    messages.success(
+        request,
+        "Book issued successfully."
+    )
+
+    return redirect('borrow_requests')
+
+# REJECT REQUEST
+
+
+@login_required
+def reject_request(request, request_id):
+
+    borrow_request = get_object_or_404(
+        BorrowRequest,
+        id=request_id
+    )
+
+    borrow_request.status = 'Rejected'
+    borrow_request.save()
+
+    messages.success(
+        request,
+        "Request rejected."
+    )
+
+    return redirect('borrow_requests')
+
+
+@login_required
+def return_book(request, issue_id):
+
+    issue = get_object_or_404(
+        IssueBook,
+        id=issue_id
+    )
+
+    issue.return_date = timezone.now().date()
+    issue.status = 'Returned'
+    issue.save()
+
+    issue.book.available_copies += 1
+    issue.book.save()
+
+    if issue.return_date > issue.due_date:
+
+        late_days = (
+            issue.return_date -
+            issue.due_date
+        ).days
+
+        fine_amount = late_days * 5
+
+        Fine.objects.create(
+            issue=issue,
+            amount=fine_amount
+        )
+
+    messages.success(
+        request,
+        "Book returned successfully."
+    )
+
+    return redirect('issued_books')
+
+
+@login_required
+def user_fines(request):
+
+    try:
+        student = Student.objects.get(user=request.user)
+
+    except Student.DoesNotExist:
+        return render(request, 'userfines.html', {
+            'fines': [],
+            'total_fines': 0
+        })
+
+    fines = Fine.objects.filter(
+        student=student
+    )
+
+    total_fines = fines.filter(
+        paid=False
+    ).aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+
+    context = {
+        'fines': fines,
+        'total_fines': total_fines
+    }
+
+    return render(
+        request,
+        'userfines.html',
+        context
+    )
