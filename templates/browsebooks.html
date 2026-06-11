@@ -27,7 +27,17 @@
         <a href="{% url 'user_fines' %}">Fines</a>
     </div>
 
-    {% if messages %}
+    <div class="logout-link">
+        <a href="{% url 'logout' %}">
+            <span class="material-symbols-outlined">
+                logout
+            </span>
+        </a>
+    </div>
+
+</div>
+
+{% if messages %}
     <div class="messages-container">
 
         {% for message in messages %}
@@ -40,16 +50,6 @@
 
     </div>
     {% endif %}
-
-    <div class="logout-link">
-        <a href="{% url 'logout' %}">
-            <span class="material-symbols-outlined">
-                logout
-            </span>
-        </a>
-    </div>
-
-</div>
 
 <!-- PAGE HEADER -->
 <div class="page-header">
