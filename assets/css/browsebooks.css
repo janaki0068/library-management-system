@@ -226,6 +226,7 @@ p{
     font-family: 'Jost', sans-serif;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
 }
 
 .messages-container{
@@ -363,12 +364,14 @@ a.borrow-button {
     font-family: 'Jost', sans-serif;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
 }
 
 .disabled-btn {
     background-color: var(--btn-color-2);
     color: var(--btn-text-color-1);
     cursor: not-allowed;
+    text-align: center;
 }
 
 .page-header {
