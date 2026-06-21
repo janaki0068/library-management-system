@@ -1,0 +1,12 @@
+diff --cc library/models.py
+index 76497a1,502b3c5..0000000
+--- a/library/models.py
++++ b/library/models.py
+@@@ -99,5 -155,4 +156,5 @@@ class Fine(models.Model)
+      )
+  
+      def __str__(self):
+ -        return f"{self.student} - {self.amount}"
+ +        return f"{self.student} - {self.amount}"
+-     
+++
